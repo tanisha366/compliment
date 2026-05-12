@@ -3,2098 +3,1977 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <meta name="description" content="Cosmic self-care sanctuary with personalized mood-based compliments">
-  <title>Glow Bloom ✨ - Cosmic Self-Care</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <title>Glow Bloom — Your Daily Sanctuary</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --primary-color: #8A2BE2;
-      --secondary-color: #FF69B4;
-      --accent-color: #FFD700;
-      --text-color: #2E2E2E;
-      --bg-color: #f9f5ff;
-      --card-bg: rgba(255, 255, 255, 0.9);
-      --border-color: rgba(138, 43, 226, 0.2);
-      --shadow: 0 4px 20px rgba(138, 43, 226, 0.15);
-      --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    body.night-mode {
-      --primary-color: #BA55D3;
-      --secondary-color: #FF8C00;
-      --accent-color: #FFD700;
-      --text-color: #F0E6FF;
-      --bg-color: #1A0B2E;
-      --card-bg: rgba(26, 11, 46, 0.8);
-      --border-color: rgba(186, 85, 211, 0.3);
-      --shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    :root {
+      --rose: #E8627A;
+      --peach: #F4956A;
+      --gold: #F2B949;
+      --lavender: #9B7FD4;
+      --mint: #5EC4A8;
+      --ink: #1C1520;
+      --fog: #F7F4F9;
+      --cream: #FDF8F2;
+      --glass: rgba(255,255,255,0.72);
+      --glass-border: rgba(255,255,255,0.55);
+      --shadow-soft: 0 8px 40px rgba(28,21,32,0.08);
+      --shadow-float: 0 20px 60px rgba(28,21,32,0.14);
+      --r: 20px;
+      --transition: 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
 
     body {
-      margin: 0;
-      font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-      color: var(--text-color);
-      transition: var(--transition);
-      line-height: 1.6;
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      color: var(--ink);
       min-height: 100vh;
       overflow-x: hidden;
-      background: var(--bg-color);
     }
 
-    /* Background Elements */
-    .gradient-overlay {
+    /* ── NOISE TEXTURE ── */
+    body::before {
+      content: '';
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(135deg, rgba(138, 43, 226, 0.1) 0%, rgba(255, 105, 180, 0.1) 100%);
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.6;
+    }
+
+    /* ── MESH BACKGROUND ── */
+    .mesh {
+      position: fixed;
+      inset: 0;
       z-index: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 10% 20%, rgba(232,98,122,0.18) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 80% at 90% 80%, rgba(155,127,212,0.16) 0%, transparent 55%),
+        radial-gradient(ellipse 70% 50% at 50% 50%, rgba(244,149,106,0.10) 0%, transparent 60%),
+        var(--cream);
+      animation: meshShift 20s ease-in-out infinite alternate;
     }
 
-    body.night-mode .gradient-overlay {
-      background: linear-gradient(135deg, rgba(26, 11, 46, 0.8) 0%, rgba(70, 16, 110, 0.6) 100%);
+    @keyframes meshShift {
+      0%   { filter: hue-rotate(0deg); }
+      100% { filter: hue-rotate(15deg); }
     }
 
-    /* Floating Elements */
-    .floating-bubble {
+    /* ── FLOATING ORBS ── */
+    .orb {
       position: fixed;
       border-radius: 50%;
-      filter: blur(1px);
-      opacity: 0.7;
-      z-index: 1;
-      animation: float linear infinite;
+      filter: blur(60px);
+      pointer-events: none;
+      z-index: 0;
+      animation: orbFloat ease-in-out infinite alternate;
+    }
+    .orb-1 { width: 500px; height: 500px; background: rgba(232,98,122,0.12); top: -200px; left: -100px; animation-duration: 12s; }
+    .orb-2 { width: 400px; height: 400px; background: rgba(155,127,212,0.14); bottom: -150px; right: -50px; animation-duration: 16s; }
+    .orb-3 { width: 300px; height: 300px; background: rgba(94,196,168,0.10); top: 40%; left: 60%; animation-duration: 10s; }
+
+    @keyframes orbFloat {
+      0%   { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(30px, -40px) scale(1.05); }
     }
 
-    @keyframes float {
-      0% {
-        transform: translateY(0) rotate(0deg);
-      }
-      100% {
-        transform: translateY(-100vh) rotate(360deg);
-      }
-    }
-
-    .floating-star {
-      position: fixed;
-      width: 3px;
-      height: 3px;
-      background-color: var(--accent-color);
-      border-radius: 50%;
-      z-index: 1;
-      animation: twinkle 3s ease-in-out infinite;
-    }
-
-    @keyframes twinkle {
-      0%, 100% { opacity: 0.2; }
-      50% { opacity: 1; }
-    }
-
-    .floating-heart {
-      position: fixed;
-      font-size: 16px;
-      color: var(--secondary-color);
-      z-index: 1;
-      animation: float-heart linear infinite;
-    }
-
-    @keyframes float-heart {
-      0% {
-        transform: translateY(0) rotate(0deg);
-        opacity: 0;
-      }
-      10% {
-        opacity: 0.8;
-      }
-      100% {
-        transform: translateY(-100vh) rotate(360deg);
-        opacity: 0;
-      }
-    }
-
-    /* Layout */
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 20px;
+    /* ── LAYOUT ── */
+    .app {
       position: relative;
       z-index: 2;
-    }
-
-    .header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 16px 24px;
-    }
-
-    /* Logo Animation */
-    .logo {
-      font-size: 28px;
-      font-weight: 700;
-      background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .logo span {
-      display: inline-block;
-      animation: float 3s ease-in-out infinite;
-    }
-
-    .logo span:nth-child(1) { animation-delay: 0.1s; }
-    .logo span:nth-child(2) { animation-delay: 0.2s; }
-    .logo span:nth-child(3) { animation-delay: 0.3s; }
-    .logo span:nth-child(4) { animation-delay: 0.4s; }
-    .logo span:nth-child(6) { animation-delay: 0.5s; }
-    .logo span:nth-child(7) { animation-delay: 0.6s; }
-    .logo span:nth-child(8) { animation-delay: 0.7s; }
-    .logo span:nth-child(9) { animation-delay: 0.8s; }
-
-    @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-10px); }
-    }
-
-    /* Theme Toggle */
-    .theme-toggle {
-      background: var(--card-bg);
-      border: none;
-      cursor: pointer;
-      padding: 10px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--primary-color);
-      transition: var(--transition);
-      box-shadow: var(--shadow);
-      width: 44px;
-      height: 44px;
-    }
-
-    /* Main Content */
-    .main-content {
+      min-height: 100vh;
       display: flex;
       flex-direction: column;
+    }
+
+    /* ── TOPBAR ── */
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 22px 40px;
+      background: var(--glass);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--glass-border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .logo-mark {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo-icon {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, var(--rose), var(--peach));
+      border-radius: 12px;
+      display: flex;
       align-items: center;
       justify-content: center;
-      min-height: calc(100vh - 120px);
-      padding: 40px 20px;
-      text-align: center;
+      font-size: 20px;
+      box-shadow: 0 4px 14px rgba(232,98,122,0.35);
     }
 
-    /* Hero Section */
-    .hero {
-      max-width: 700px;
-      margin-bottom: 40px;
-      background: var(--card-bg);
-      padding: 40px;
-      border-radius: 24px;
-      box-shadow: var(--shadow);
-      border: 1px solid var(--border-color);
-      backdrop-filter: blur(10px);
-    }
-
-    .hero h1 {
-      font-size: 52px;
+    .logo-text {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
       font-weight: 700;
-      margin-bottom: 16px;
-      background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+      background: linear-gradient(90deg, var(--rose), var(--lavender));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      line-height: 1.2;
+      background-clip: text;
     }
 
-    .hero p {
-      font-size: 18px;
-      color: var(--text-color);
-      opacity: 0.9;
-      margin-bottom: 32px;
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
     }
 
-    /* Buttons */
-    .btn {
-      padding: 14px 28px;
+    .nav-pill {
+      display: flex;
+      background: rgba(28,21,32,0.05);
       border-radius: 50px;
-      font-size: 16px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: var(--transition);
+      padding: 4px;
+      gap: 2px;
+    }
+
+    .nav-btn {
+      background: transparent;
       border: none;
-      display: inline-flex;
+      padding: 8px 16px;
+      border-radius: 50px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--ink);
+      opacity: 0.55;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .nav-btn.active, .nav-btn:hover {
+      background: white;
+      opacity: 1;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    .theme-btn {
+      width: 40px;
+      height: 40px;
+      border: none;
+      background: rgba(28,21,32,0.05);
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: 18px;
+      display: flex;
       align-items: center;
       justify-content: center;
-      gap: 10px;
+      transition: all 0.2s;
+    }
+
+    .theme-btn:hover { background: rgba(28,21,32,0.10); transform: scale(1.05); }
+
+    /* ── PAGES ── */
+    .page { display: none; animation: pageIn 0.5s cubic-bezier(0.22, 1, 0.36, 1); }
+    .page.active { display: block; }
+
+    @keyframes pageIn {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── HOME PAGE ── */
+    .home-hero {
+      max-width: 1100px;
+      margin: 60px auto 0;
+      padding: 0 40px;
+    }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(232,98,122,0.10);
+      border: 1px solid rgba(232,98,122,0.20);
+      padding: 6px 16px;
+      border-radius: 50px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--rose);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+    }
+
+    .hero-headline {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(42px, 6vw, 72px);
+      line-height: 1.08;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 20px;
+      max-width: 700px;
+    }
+
+    .hero-headline em {
+      font-style: italic;
+      background: linear-gradient(90deg, var(--rose), var(--peach));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-sub {
+      font-size: 18px;
+      color: var(--ink);
+      opacity: 0.6;
+      max-width: 480px;
+      line-height: 1.65;
+      margin-bottom: 40px;
+    }
+
+    .hero-cta-group {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-bottom: 70px;
+    }
+
+    /* ── BUTTONS ── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 28px;
+      border-radius: 50px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+      text-decoration: none;
+    }
+
+    .btn::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: white;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    .btn:hover::after { opacity: 0.12; }
+    .btn:active { transform: scale(0.97); }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--rose), var(--peach));
+      color: white;
+      box-shadow: 0 6px 24px rgba(232,98,122,0.40);
+    }
+
+    .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 12px 36px rgba(232,98,122,0.45); }
+
+    .btn-outline {
+      background: white;
+      color: var(--ink);
+      border: 1.5px solid rgba(28,21,32,0.12);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .btn-outline:hover { border-color: var(--rose); color: var(--rose); transform: translateY(-2px); }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--ink);
+      opacity: 0.65;
+      padding: 12px 20px;
+    }
+
+    .btn-ghost:hover { opacity: 1; background: rgba(28,21,32,0.04); }
+
+    .btn-sm { padding: 10px 20px; font-size: 13px; }
+    .btn-icon { width: 42px; height: 42px; padding: 0; justify-content: center; border-radius: 12px; }
+
+    /* ── FEATURE CARDS (Home) ── */
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      max-width: 1100px;
+      margin: 0 auto 80px;
+      padding: 0 40px;
+    }
+
+    .feature-card {
+      background: var(--glass);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border);
+      border-radius: 24px;
+      padding: 32px;
+      cursor: pointer;
+      transition: var(--transition);
       position: relative;
       overflow: hidden;
     }
 
-    .btn-primary {
-      background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
-      color: white;
-      box-shadow: var(--shadow);
-    }
-
-    .btn-primary:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 8px 32px rgba(138, 43, 226, 0.3);
-    }
-
-    .btn-secondary {
-      background: var(--card-bg);
-      color: var(--primary-color);
-      border: 1px solid var(--border-color);
-    }
-
-    .btn-secondary:hover {
-      background: rgba(138, 43, 226, 0.1);
-      transform: translateY(-3px);
-      box-shadow: var(--shadow);
-    }
-
-    /* Mood Selector */
-    .mood-selector {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 24px;
-      margin-bottom: 32px;
-      width: 100%;
-      max-width: 800px;
-      background: var(--card-bg);
-      padding: 40px;
-      border-radius: 24px;
-      box-shadow: var(--shadow);
-      border: 1px solid var(--border-color);
-      backdrop-filter: blur(10px);
-    }
-
-    .mood-options {
-      display: flex;
-      gap: 16px;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-
-    .mood-option {
-      padding: 14px 24px;
-      border-radius: 50px;
-      background-color: var(--card-bg);
-      border: 1px solid var(--border-color);
-      cursor: pointer;
-      transition: var(--transition);
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-weight: 500;
-      box-shadow: var(--shadow);
-    }
-
-    .mood-option:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 8px 24px rgba(138, 43, 226, 0.2);
-    }
-
-    .mood-option.selected {
-      background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
-      color: white;
-      border-color: transparent;
-      box-shadow: 0 8px 24px rgba(138, 43, 226, 0.3);
-    }
-
-    /* Compliment Section */
-    .compliment-section {
-      display: none;
-      flex-direction: column;
-      align-items: center;
-      gap: 24px;
-      width: 100%;
-      max-width: 700px;
-      background: var(--card-bg);
-      padding: 40px;
-      border-radius: 24px;
-      box-shadow: var(--shadow);
-      border: 1px solid var(--border-color);
-      backdrop-filter: blur(10px);
-      position: relative;
-    }
-
-    .compliment-card {
-      background: linear-gradient(135deg, rgba(138, 43, 226, 0.1) 0%, rgba(255, 105, 180, 0.1) 100%);
-      border-radius: 20px;
-      padding: 40px;
-      width: 100%;
-      box-shadow: var(--shadow);
-      border: 1px solid var(--border-color);
-      text-align: center;
-      min-height: 200px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-    }
-
-    .compliment-text {
-      font-size: 22px;
-      font-weight: 500;
-      color: var(--text-color);
-      line-height: 1.5;
-    }
-
-    /* Action Buttons */
-    .action-buttons {
-      display: flex;
-      gap: 16px;
-      justify-content: center;
-      width: 100%;
-      flex-wrap: wrap;
-    }
-
-    /* Toolbar */
-    .compliment-toolbar {
+    .feature-card::before {
+      content: '';
       position: absolute;
-      top: 15px;
-      right: 15px;
-      display: flex;
-      gap: 8px;
-      z-index: 2;
+      top: -1px;
+      left: 20px;
+      right: 20px;
+      height: 3px;
+      border-radius: 0 0 4px 4px;
+      background: linear-gradient(90deg, var(--c1), var(--c2));
+      opacity: 0;
+      transition: opacity 0.3s;
     }
 
-    .tool-button {
-      background: var(--card-bg);
-      border: none;
-      border-radius: 50%;
-      width: 36px;
-      height: 36px;
+    .feature-card:hover::before { opacity: 1; }
+    .feature-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-float); border-color: rgba(255,255,255,0.9); }
+
+    .feature-card.card-mood   { --c1: var(--rose); --c2: var(--peach); }
+    .feature-card.card-affirm { --c1: var(--lavender); --c2: var(--mint); }
+    .feature-card.card-breath { --c1: var(--mint); --c2: var(--gold); }
+
+    .feature-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 16px;
       display: flex;
       align-items: center;
       justify-content: center;
-      color: var(--primary-color);
-      cursor: pointer;
-      transition: var(--transition);
-      box-shadow: var(--shadow);
-    }
-
-    .tool-button:hover {
-      transform: scale(1.1);
-      background: var(--primary-color);
-      color: white;
-    }
-
-    /* Toast Notifications */
-    .toast {
-      position: fixed;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: var(--card-bg);
-      color: var(--text-color);
-      padding: 12px 24px;
-      border-radius: 8px;
-      box-shadow: var(--shadow);
-      border: 1px solid var(--border-color);
-      z-index: 1000;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
-
-    .toast.show {
-      opacity: 1;
-    }
-
-    /* Favorites Section */
-    .favorites-section {
-      display: none;
-      width: 100%;
-      max-width: 700px;
-      margin-top: 32px;
-      background: var(--card-bg);
-      padding: 32px;
-      border-radius: 24px;
-      box-shadow: var(--shadow);
-      border: 1px solid var(--border-color);
-      backdrop-filter: blur(10px);
-    }
-
-    .favorites-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      font-size: 28px;
       margin-bottom: 20px;
     }
 
-    .favorites-count {
-      background: var(--primary-color);
-      color: white;
-      padding: 4px 10px;
-      border-radius: 20px;
-      font-size: 14px;
+    .feature-card.card-mood   .feature-icon { background: linear-gradient(135deg, rgba(232,98,122,0.15), rgba(244,149,106,0.15)); }
+    .feature-card.card-affirm .feature-icon { background: linear-gradient(135deg, rgba(155,127,212,0.15), rgba(94,196,168,0.15)); }
+    .feature-card.card-breath .feature-icon { background: linear-gradient(135deg, rgba(94,196,168,0.15), rgba(242,185,73,0.15)); }
+
+    .feature-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      opacity: 0.45;
+      margin-bottom: 8px;
     }
 
-    .favorites-list {
-      list-style: none;
-      padding: 0;
-      margin: 0;
+    .feature-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .feature-desc {
+      font-size: 14px;
+      opacity: 0.6;
+      line-height: 1.6;
+    }
+
+    .feature-arrow {
+      position: absolute;
+      bottom: 24px;
+      right: 24px;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: rgba(28,21,32,0.06);
       display: flex;
-      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      transition: all 0.25s;
+    }
+
+    .feature-card:hover .feature-arrow {
+      background: var(--rose);
+      color: white;
+      transform: translateX(3px);
+    }
+
+    /* ── STATS BAR (Home) ── */
+    .stats-bar {
+      max-width: 1100px;
+      margin: 0 auto 60px;
+      padding: 0 40px;
+      display: flex;
+      gap: 20px;
+    }
+
+    .stat-chip {
+      flex: 1;
+      background: var(--glass);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border);
+      border-radius: 16px;
+      padding: 20px 24px;
+      display: flex;
+      align-items: center;
       gap: 16px;
     }
 
-    .favorite-item {
-      background: linear-gradient(135deg, rgba(138, 43, 226, 0.1) 0%, rgba(255, 105, 180, 0.1) 100%);
-      border-radius: 16px;
-      padding: 20px;
-      border: 1px solid var(--border-color);
-      display: flex;
-      justify-content: space-between;
+    .stat-chip-icon { font-size: 28px; }
+
+    .stat-chip-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--rose);
+      line-height: 1;
+    }
+
+    .stat-chip-label {
+      font-size: 12px;
+      opacity: 0.5;
+      font-weight: 500;
+    }
+
+    /* ── MOOD PAGE ── */
+    .page-inner {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 50px 40px 80px;
+    }
+
+    .page-header {
+      margin-bottom: 40px;
+    }
+
+    .page-back {
+      display: inline-flex;
       align-items: center;
+      gap: 6px;
+      font-size: 14px;
+      font-weight: 500;
+      opacity: 0.5;
+      cursor: pointer;
+      border: none;
+      background: none;
+      font-family: 'DM Sans', sans-serif;
+      padding: 0;
+      margin-bottom: 20px;
+      transition: opacity 0.2s;
+      color: var(--ink);
+    }
+
+    .page-back:hover { opacity: 1; }
+
+    .page-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(30px, 4vw, 42px);
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .page-subtitle {
+      font-size: 16px;
+      opacity: 0.55;
+    }
+
+    /* ── MOOD GRID ── */
+    .mood-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+
+    .mood-tile {
+      background: white;
+      border: 2px solid transparent;
+      border-radius: 20px;
+      padding: 24px 16px;
+      text-align: center;
+      cursor: pointer;
       transition: var(--transition);
+      box-shadow: 0 2px 12px rgba(28,21,32,0.05);
+      position: relative;
+      overflow: hidden;
     }
 
-    .favorite-item:hover {
-      transform: translateY(-3px);
-      box-shadow: var(--shadow);
+    .mood-tile::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(232,98,122,0.06), rgba(244,149,106,0.06));
+      opacity: 0;
+      transition: opacity 0.25s;
     }
 
-    .favorite-text {
-      flex: 1;
+    .mood-tile:hover { transform: translateY(-5px); box-shadow: 0 12px 36px rgba(28,21,32,0.10); }
+    .mood-tile:hover::after { opacity: 1; }
+
+    .mood-tile.selected {
+      border-color: var(--rose);
+      background: linear-gradient(135deg, rgba(232,98,122,0.06), rgba(244,149,106,0.06));
+      box-shadow: 0 8px 32px rgba(232,98,122,0.20);
     }
 
-    .favorite-actions {
+    .mood-tile .mood-emoji { font-size: 36px; display: block; margin-bottom: 10px; }
+    .mood-tile .mood-name { font-size: 14px; font-weight: 600; opacity: 0.8; }
+
+    /* ── COMPLIMENT PAGE ── */
+    .compliment-card-wrap {
+      background: var(--glass);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border);
+      border-radius: 28px;
+      padding: 52px;
+      text-align: center;
+      margin-bottom: 24px;
+      position: relative;
+      min-height: 220px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .compliment-card-wrap::before {
+      content: '"';
+      position: absolute;
+      top: 16px;
+      left: 32px;
+      font-family: 'Playfair Display', serif;
+      font-size: 80px;
+      line-height: 1;
+      color: var(--rose);
+      opacity: 0.15;
+    }
+
+    .compliment-quote {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(18px, 2.5vw, 26px);
+      font-weight: 400;
+      font-style: italic;
+      line-height: 1.55;
+      color: var(--ink);
+      max-width: 580px;
+    }
+
+    .compliment-quote.placeholder { opacity: 0.35; font-size: 18px; }
+
+    .compliment-mood-badge {
+      position: absolute;
+      top: 20px;
+      right: 24px;
+      background: rgba(232,98,122,0.10);
+      border: 1px solid rgba(232,98,122,0.20);
+      padding: 6px 14px;
+      border-radius: 50px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--rose);
+    }
+
+    .card-toolbar {
+      position: absolute;
+      bottom: 20px;
+      right: 24px;
       display: flex;
       gap: 8px;
     }
 
-    /* Journal Section */
-    .journal-section {
-      display: none;
-      width: 100%;
-      max-width: 700px;
-      margin-top: 32px;
-      background: var(--card-bg);
-      padding: 32px;
-      border-radius: 24px;
-      box-shadow: var(--shadow);
-      border: 1px solid var(--border-color);
-      backdrop-filter: blur(10px);
+    .icon-btn {
+      width: 36px;
+      height: 36px;
+      border: 1.5px solid rgba(28,21,32,0.10);
+      background: white;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+
+    .icon-btn:hover { border-color: var(--rose); transform: scale(1.08); }
+
+    .compliment-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .compliment-actions-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    /* ── AFFIRMATION PAGE ── */
+    .affirmation-wrap {
+      background: linear-gradient(135deg, rgba(155,127,212,0.12), rgba(94,196,168,0.12));
+      border: 1px solid rgba(155,127,212,0.20);
+      border-radius: 28px;
+      padding: 52px;
+      text-align: center;
+      margin-bottom: 28px;
+      min-height: 200px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .affirmation-text {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(18px, 2.5vw, 26px);
+      font-weight: 700;
+      line-height: 1.5;
+      color: var(--ink);
+      max-width: 560px;
+    }
+
+    .affirmation-text.placeholder { font-weight: 400; font-style: italic; opacity: 0.4; font-size: 18px; }
+
+    /* ── BREATHING PAGE ── */
+    .breathing-arena {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 20px;
+    }
+
+    .breath-orb-wrap {
+      position: relative;
+      width: 260px;
+      height: 260px;
+      margin-bottom: 40px;
+    }
+
+    .breath-ring {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      border: 2px solid rgba(94,196,168,0.3);
+      animation: ringPulse 4s ease-in-out infinite;
+    }
+
+    .breath-ring:nth-child(2) { inset: -18px; animation-delay: 0.6s; opacity: 0.5; }
+    .breath-ring:nth-child(3) { inset: -36px; animation-delay: 1.2s; opacity: 0.25; }
+
+    @keyframes ringPulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.08); opacity: 0.4; }
+    }
+
+    .breath-orb {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--mint), var(--lavender));
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      box-shadow: 0 0 60px rgba(94,196,168,0.4);
+      transition: transform 4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .breath-orb-label {
+      font-family: 'Playfair Display', serif;
+      font-size: 20px;
+      font-style: italic;
+      letter-spacing: 0.03em;
+    }
+
+    .breath-orb-count {
+      font-size: 38px;
+      font-weight: 700;
+      line-height: 1;
+      margin-top: 4px;
+    }
+
+    .breath-phase-label {
+      font-size: 28px;
+      font-weight: 600;
+      margin-bottom: 6px;
+      font-family: 'Playfair Display', serif;
+    }
+
+    .breath-instruction {
+      font-size: 15px;
+      opacity: 0.55;
+      margin-bottom: 36px;
+    }
+
+    .breath-pattern-toggle {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: 32px;
+    }
+
+    .pattern-chip {
+      padding: 8px 18px;
+      border-radius: 50px;
+      border: 1.5px solid rgba(28,21,32,0.12);
+      background: white;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    .pattern-chip.active, .pattern-chip:hover {
+      border-color: var(--mint);
+      background: rgba(94,196,168,0.12);
+      color: var(--mint);
+    }
+
+    /* ── JOURNAL PAGE ── */
+    .journal-editor {
+      background: white;
+      border: 1.5px solid rgba(28,21,32,0.08);
+      border-radius: 20px;
+      overflow: hidden;
+      margin-bottom: 20px;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .journal-toolbar {
+      padding: 14px 20px;
+      border-bottom: 1px solid rgba(28,21,32,0.06);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: rgba(28,21,32,0.02);
+    }
+
+    .journal-date {
+      font-size: 13px;
+      font-weight: 600;
+      opacity: 0.4;
+    }
+
+    .journal-mood-tag {
+      background: rgba(232,98,122,0.10);
+      color: var(--rose);
+      padding: 4px 12px;
+      border-radius: 50px;
+      font-size: 12px;
+      font-weight: 600;
     }
 
     .journal-textarea {
       width: 100%;
-      min-height: 150px;
-      padding: 15px;
-      border-radius: 12px;
-      border: 1px solid var(--border-color);
-      background: var(--card-bg);
-      color: var(--text-color);
-      font-family: inherit;
-      margin-bottom: 20px;
-      resize: vertical;
-    }
-
-    /* Animations */
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .fade-in {
-      animation: fadeIn 0.6s ease-out forwards;
-    }
-
-    @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.05); }
-      100% { transform: scale(1); }
-    }
-
-    .pulse {
-      animation: pulse 2s infinite;
-    }
-
-    /* Confetti */
-    .confetti {
-      position: fixed;
-      width: 10px;
-      height: 10px;
-      background-color: var(--accent-color);
-      opacity: 0;
-      z-index: 999;
-      animation: confettiFall 5s linear forwards;
-    }
-
-    @keyframes confettiFall {
-      0% {
-        transform: translateY(-100vh) rotate(0deg);
-        opacity: 1;
-      }
-      100% {
-        transform: translateY(100vh) rotate(720deg);
-        opacity: 0;
-      }
-    }
-
-    /* NEW FEATURES STYLES */
-
-    /* Daily Affirmation Section */
-    .affirmation-section {
-      display: none;
-      width: 100%;
-      max-width: 700px;
-      margin-top: 32px;
-      background: var(--card-bg);
-      padding: 32px;
-      border-radius: 24px;
-      box-shadow: var(--shadow);
-      border: 1px solid var(--border-color);
-      backdrop-filter: blur(10px);
-    }
-
-    .affirmation-card {
-      background: linear-gradient(135deg, rgba(138, 43, 226, 0.1) 0%, rgba(255, 105, 180, 0.1) 100%);
-      border-radius: 20px;
-      padding: 40px;
-      width: 100%;
-      box-shadow: var(--shadow);
-      border: 1px solid var(--border-color);
-      text-align: center;
       min-height: 200px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
+      padding: 24px;
+      border: none;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 16px;
+      line-height: 1.7;
+      color: var(--ink);
+      resize: vertical;
+      background: transparent;
+      outline: none;
     }
 
-    .affirmation-text {
-      font-size: 22px;
-      font-weight: 500;
-      color: var(--text-color);
-      line-height: 1.5;
-    }
+    .journal-entries-list { display: flex; flex-direction: column; gap: 14px; margin-top: 28px; }
 
-    /* Breathing Exercise Section */
-    .breathing-section {
-      display: none;
-      width: 100%;
-      max-width: 700px;
-      margin-top: 32px;
-      background: var(--card-bg);
-      padding: 32px;
-      border-radius: 24px;
-      box-shadow: var(--shadow);
-      border: 1px solid var(--border-color);
-      backdrop-filter: blur(10px);
-    }
-
-    .breathing-circle {
-      width: 200px;
-      height: 200px;
-      border-radius: 50%;
-      margin: 0 auto 30px;
-      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      font-size: 24px;
-      font-weight: bold;
-      transition: transform 4s ease-in-out;
-    }
-
-    .breathing-instructions {
-      font-size: 18px;
-      margin-bottom: 20px;
-    }
-
-    /* Progress Tracking */
-    .progress-section {
-      display: none;
-      width: 100%;
-      max-width: 700px;
-      margin-top: 32px;
-      background: var(--card-bg);
-      padding: 32px;
-      border-radius: 24px;
-      box-shadow: var(--shadow);
-      border: 1px solid var(--border-color);
-      backdrop-filter: blur(10px);
-    }
-
-    .progress-stats {
-      display: flex;
-      justify-content: space-around;
-      margin-bottom: 30px;
-    }
-
-    .stat-card {
-      text-align: center;
-      padding: 20px;
-      background: linear-gradient(135deg, rgba(138, 43, 226, 0.1) 0%, rgba(255, 105, 180, 0.1) 100%);
+    .journal-entry-item {
+      background: white;
+      border: 1px solid rgba(28,21,32,0.07);
       border-radius: 16px;
-      border: 1px solid var(--border-color);
-      flex: 1;
-      margin: 0 10px;
-    }
-
-    .stat-number {
-      font-size: 32px;
-      font-weight: 700;
-      color: var(--primary-color);
-      margin-bottom: 5px;
-    }
-
-    .stat-label {
-      font-size: 14px;
-      opacity: 0.8;
-    }
-
-    .streak-container {
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-      margin-top: 20px;
-    }
-
-    .streak-day {
-      width: 30px;
-      height: 30px;
-      border-radius: 50%;
-      background: var(--card-bg);
-      border: 1px solid var(--border-color);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 12px;
-    }
-
-    .streak-day.active {
-      background: var(--primary-color);
-      color: white;
-    }
-
-    /* Share Section */
-    .share-section {
-      display: none;
-      width: 100%;
-      max-width: 700px;
-      margin-top: 32px;
-      background: var(--card-bg);
-      padding: 32px;
-      border-radius: 24px;
-      box-shadow: var(--shadow);
-      border: 1px solid var(--border-color);
-      backdrop-filter: blur(10px);
-    }
-
-    .share-options {
-      display: flex;
-      justify-content: center;
-      gap: 15px;
-      margin-top: 20px;
-    }
-
-    .share-button {
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: var(--card-bg);
-      border: 1px solid var(--border-color);
-      cursor: pointer;
+      padding: 20px 24px;
       transition: var(--transition);
-      font-size: 20px;
     }
 
-    .share-button:hover {
-      transform: scale(1.1);
-      background: var(--primary-color);
-      color: white;
-    }
+    .journal-entry-item:hover { transform: translateX(4px); border-color: rgba(232,98,122,0.25); }
 
-    /* Animated Bubble Background */
-    .bg-wrapper {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -1; /* Ensures it stays behind content */
+    .journal-entry-date { font-size: 12px; opacity: 0.4; font-weight: 600; margin-bottom: 8px; }
+    .journal-entry-text { font-size: 15px; opacity: 0.75; line-height: 1.6; }
+
+    /* ── FAVORITES PAGE ── */
+    .favorites-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+    .fav-card {
+      background: white;
+      border: 1px solid rgba(28,21,32,0.07);
+      border-radius: 20px;
+      padding: 24px;
+      position: relative;
+      transition: var(--transition);
       overflow: hidden;
     }
 
-    .bg-bubbles {
+    .fav-card::before {
+      content: '';
       position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 1;
-      list-style: none;
-      margin: 0;
-      padding: 0;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--rose), var(--peach));
+      opacity: 0;
+      transition: opacity 0.25s;
     }
 
-    .bg-bubbles li {
+    .fav-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-float); }
+    .fav-card:hover::before { opacity: 1; }
+
+    .fav-card-mood { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.4; margin-bottom: 10px; }
+    .fav-card-text { font-family: 'Playfair Display', serif; font-size: 16px; font-style: italic; line-height: 1.55; margin-bottom: 16px; }
+    .fav-card-date { font-size: 12px; opacity: 0.35; }
+
+    .fav-card-actions {
       position: absolute;
-      display: block;
+      top: 16px;
+      right: 16px;
+      display: flex;
+      gap: 6px;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    .fav-card:hover .fav-card-actions { opacity: 1; }
+
+    /* ── PROGRESS PAGE ── */
+    .progress-hero {
+      background: linear-gradient(135deg, var(--rose), var(--peach));
+      border-radius: 28px;
+      padding: 40px;
+      color: white;
+      margin-bottom: 28px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .progress-hero::after {
+      content: '✨';
+      position: absolute;
+      right: 40px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 80px;
+      opacity: 0.2;
+    }
+
+    .progress-hero h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 14px;
+      font-weight: 400;
+      opacity: 0.8;
+      margin-bottom: 6px;
+    }
+
+    .progress-hero-num {
+      font-size: 56px;
+      font-weight: 700;
+      font-family: 'Playfair Display', serif;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+
+    .progress-hero-sub { font-size: 15px; opacity: 0.75; }
+
+    .progress-stats-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+
+    .progress-stat {
+      background: var(--glass);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border);
+      border-radius: 20px;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .progress-stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 36px;
+      font-weight: 700;
+      color: var(--rose);
+    }
+
+    .progress-stat-label { font-size: 13px; opacity: 0.5; margin-top: 4px; }
+
+    .streak-section {
+      background: white;
+      border: 1px solid rgba(28,21,32,0.07);
+      border-radius: 20px;
+      padding: 28px;
+    }
+
+    .streak-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+
+    .streak-row {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .streak-dot {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .streak-dot-day {
       width: 40px;
       height: 40px;
-      background-color: rgba(138, 43, 226, 0.15); /* Purple tint */
-      bottom: -160px;
-      animation: square 25s infinite;
-      transition-timing-function: linear;
-      border-radius: 10px;
+      border-radius: 12px;
+      border: 1.5px solid rgba(28,21,32,0.10);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      font-weight: 700;
+      transition: all 0.25s;
     }
 
-    /* Bubble Animations */
-    @keyframes square {
-      0% {
-        transform: translateY(0) rotate(0deg);
-        opacity: 1;
-      }
-      100% {
-        transform: translateY(-1000px) rotate(720deg);
-        opacity: 0;
-      }
+    .streak-dot.active .streak-dot-day {
+      background: linear-gradient(135deg, var(--rose), var(--peach));
+      border-color: transparent;
+      color: white;
+      box-shadow: 0 4px 16px rgba(232,98,122,0.35);
     }
 
-    /* Customize Bubble Sizes & Positions */
-    .bg-bubbles li:nth-child(1) {
-      left: 10%;
-      width: 80px;
-      height: 80px;
-      animation-delay: 2s;
-      animation-duration: 17s;
+    .streak-dot-label { font-size: 11px; opacity: 0.4; font-weight: 600; }
+
+    /* ── TOAST ── */
+    .toast-wrap {
+      position: fixed;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      z-index: 9998;
+      transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
 
-    .bg-bubbles li:nth-child(2) {
-      left: 20%;
-      width: 20px;
-      height: 20px;
-      animation-delay: 4s;
-      animation-duration: 40s;
+    .toast-wrap.show { transform: translateX(-50%) translateY(0); }
+
+    .toast-inner {
+      background: var(--ink);
+      color: white;
+      padding: 14px 22px;
+      border-radius: 50px;
+      font-size: 14px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      white-space: nowrap;
+      box-shadow: 0 12px 40px rgba(28,21,32,0.25);
     }
 
-    .bg-bubbles li:nth-child(3) {
-      left: 25%;
-      animation-delay: 4s;
+    .toast-inner.success { background: #1b7a5f; }
+    .toast-inner.error   { background: #b93254; }
+
+    /* ── CONFETTI ── */
+    .confetti-piece {
+      position: fixed;
+      width: 8px;
+      height: 8px;
+      border-radius: 2px;
+      z-index: 9990;
+      pointer-events: none;
+      animation: confettiFall linear forwards;
     }
 
-    .bg-bubbles li:nth-child(4) {
-      left: 40%;
-      width: 60px;
-      height: 60px;
-      animation-delay: 0s;
-      animation-duration: 18s;
+    @keyframes confettiFall {
+      0%   { transform: translateY(-20px) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
     }
 
-    .bg-bubbles li:nth-child(5) {
-      left: 70%;
+    /* ── DARK MODE ── */
+    body.dark {
+      --ink: #F0EAF7;
+      --fog: #1C1520;
+      --cream: #120D18;
+      --glass: rgba(28,21,40,0.78);
+      --glass-border: rgba(255,255,255,0.08);
+      --shadow-soft: 0 8px 40px rgba(0,0,0,0.25);
+      --shadow-float: 0 20px 60px rgba(0,0,0,0.35);
     }
 
-    .bg-bubbles li:nth-child(6) {
-      left: 80%;
-      width: 120px;
-      height: 120px;
-      animation-delay: 3s;
+    body.dark .mesh {
+      background:
+        radial-gradient(ellipse 80% 60% at 10% 20%, rgba(232,98,122,0.12) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 80% at 90% 80%, rgba(155,127,212,0.14) 0%, transparent 55%),
+        radial-gradient(ellipse 70% 50% at 50% 50%, rgba(244,149,106,0.06) 0%, transparent 60%),
+        #120D18;
     }
 
-    .bg-bubbles li:nth-child(7) {
-      left: 32%;
-      width: 160px;
-      height: 160px;
-      animation-delay: 7s;
+    body.dark .mood-tile,
+    body.dark .fav-card,
+    body.dark .journal-editor,
+    body.dark .journal-entry-item,
+    body.dark .streak-section,
+    body.dark .btn-outline {
+      background: rgba(255,255,255,0.04);
+      border-color: rgba(255,255,255,0.08);
+      color: var(--ink);
     }
 
-    .bg-bubbles li:nth-child(8) {
-      left: 55%;
-      width: 20px;
-      height: 20px;
-      animation-delay: 15s;
-      animation-duration: 40s;
+    body.dark .progress-stat { background: rgba(255,255,255,0.04); }
+
+    body.dark .journal-toolbar { background: rgba(255,255,255,0.03); }
+
+    body.dark .topbar { background: rgba(18,13,24,0.85); }
+
+    body.dark .journal-textarea { color: var(--ink); }
+
+    /* ── SHARE PAGE ── */
+    .share-card {
+      background: var(--glass);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border);
+      border-radius: 28px;
+      padding: 48px;
+      text-align: center;
+      margin-bottom: 28px;
+      min-height: 180px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
-    .bg-bubbles li:nth-child(9) {
-      left: 25%;
-      width: 10px;
-      height: 10px;
-      animation-delay: 2s;
-      animation-duration: 40s;
+    .share-text {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(17px, 2.5vw, 24px);
+      font-style: italic;
+      line-height: 1.55;
     }
 
-    .bg-bubbles li:nth-child(10) {
-      left: 90%;
-      width: 160px;
-      height: 160px;
-      animation-delay: 11s;
+    .share-text.placeholder { opacity: 0.35; font-size: 16px; }
+
+    .share-channels {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      margin-bottom: 28px;
     }
 
-    /* Responsive */
+    .channel-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      padding: 18px 24px;
+      border-radius: 20px;
+      border: 1.5px solid rgba(28,21,32,0.09);
+      background: white;
+      cursor: pointer;
+      transition: var(--transition);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--ink);
+      min-width: 90px;
+    }
+
+    .channel-btn span:first-child { font-size: 28px; }
+
+    .channel-btn:hover { transform: translateY(-5px); box-shadow: var(--shadow-float); }
+    .channel-btn:nth-child(1):hover { border-color: #1DA1F2; background: rgba(29,161,242,0.06); }
+    .channel-btn:nth-child(2):hover { border-color: #25D366; background: rgba(37,211,102,0.06); }
+    .channel-btn:nth-child(3):hover { border-color: var(--rose); background: rgba(232,98,122,0.06); }
+
+    body.dark .channel-btn { background: rgba(255,255,255,0.04); border-color: rgba(255,255,255,0.08); }
+
+    /* ── LOADING DOTS ── */
+    .loading-dots {
+      display: inline-flex;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .loading-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--rose);
+      border-radius: 50%;
+      animation: dotBounce 0.8s ease-in-out infinite;
+    }
+
+    .loading-dot:nth-child(2) { animation-delay: 0.15s; }
+    .loading-dot:nth-child(3) { animation-delay: 0.30s; }
+
+    @keyframes dotBounce {
+      0%, 80%, 100% { transform: scale(0.7); opacity: 0.5; }
+      40% { transform: scale(1.2); opacity: 1; }
+    }
+
+    /* ── RESPONSIVE ── */
     @media (max-width: 768px) {
-      .hero h1 {
-        font-size: 36px;
-      }
-      
-      .mood-options {
-        grid-template-columns: repeat(2, 1fr);
-      }
-      
-      .mood-option, .btn {
-        width: 100%;
-        justify-content: center;
-      }
-      
-      .action-buttons {
-        flex-direction: column;
-      }
-      
-      .hero, .mood-selector, .compliment-section, .favorites-section {
-        padding: 24px;
-      }
-      
-      .compliment-text {
-        font-size: 18px;
-      }
-      
-      .progress-stats {
-        flex-direction: column;
-        gap: 15px;
-      }
-      
-      .stat-card {
-        margin: 0;
-      }
+      .topbar { padding: 16px 20px; }
+      .nav-pill { display: none; }
+      .home-hero { padding: 0 20px; margin-top: 36px; }
+      .feature-grid { grid-template-columns: 1fr; padding: 0 20px; }
+      .stats-bar { flex-direction: column; padding: 0 20px; }
+      .page-inner { padding: 32px 20px 60px; }
+      .mood-grid { grid-template-columns: repeat(3, 1fr); }
+      .favorites-grid { grid-template-columns: 1fr; }
+      .progress-stats-row { grid-template-columns: 1fr; }
+      .compliment-actions { grid-template-columns: 1fr; }
+      .hero-cta-group { flex-direction: column; }
     }
 
     @media (max-width: 480px) {
-      .hero h1 {
-        font-size: 28px;
-      }
-      
-      .logo {
-        font-size: 22px;
-      }
-      
-      .theme-toggle {
-        width: 36px;
-        height: 36px;
-        padding: 6px;
-      }
+      .mood-grid { grid-template-columns: repeat(2, 1fr); }
+      .compliment-card-wrap { padding: 32px 24px; }
+      .affirmation-wrap { padding: 32px 24px; }
+    }
 
-      .mood-options {
-        grid-template-columns: 1fr;
-      }
-      
-      .tool-button {
-        width: 30px;
-        height: 30px;
-        font-size: 14px;
-      }
-      
-      .breathing-circle {
-        width: 150px;
-        height: 150px;
-      }
+    /* ── ANIMATIONS ── */
+    .fade-in { animation: fadeIn 0.5s cubic-bezier(0.22, 1, 0.36, 1); }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .scale-in { animation: scaleIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); }
+
+    @keyframes scaleIn {
+      from { opacity: 0; transform: scale(0.85); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+
+    .pulse-once {
+      animation: pulseOnce 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    @keyframes pulseOnce {
+      0%   { transform: scale(1); }
+      50%  { transform: scale(1.04); }
+      100% { transform: scale(1); }
     }
   </style>
 </head>
 <body>
-  <!-- Background Elements -->
-  <div class="bg-wrapper">
-    <div class="gradient-overlay"></div>
-    <ul class="bg-bubbles">
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-    </ul>
-  </div>
+  <div class="mesh"></div>
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
 
-  <!-- Floating Background Elements -->
-  <div id="floatingElements"></div>
+  <div class="app">
 
-  <div class="container">
-    <header class="header">
-      <div class="logo">
-        <span>G</span><span>l</span><span>o</span><span>w</span> <span>B</span><span>l</span><span>o</span><span>o</span><span>m</span> ✨
+    <!-- ── TOPBAR ── -->
+    <header class="topbar">
+      <div class="logo-mark">
+        <div class="logo-icon">🌸</div>
+        <div class="logo-text">Glow Bloom</div>
       </div>
-      <button class="theme-toggle" onclick="toggleTheme()">
-        <span id="theme-icon">🌙</span>
-      </button>
+      <nav class="nav-pill">
+        <button class="nav-btn active" onclick="showPage('home', this)">Home</button>
+        <button class="nav-btn" onclick="showPage('journal', this)">Journal</button>
+        <button class="nav-btn" onclick="showPage('favorites', this)">Saved</button>
+        <button class="nav-btn" onclick="showPage('progress', this)">Progress</button>
+      </nav>
+      <div class="topbar-right">
+        <button class="theme-btn" onclick="toggleTheme()" id="themeBtn" title="Toggle theme">🌙</button>
+      </div>
     </header>
 
-    <main class="main-content">
-      <!-- Home Page -->
-      <div id="homePage">
-        <div class="hero">
-          <h1>Brighten Your Day with Glow Bloom</h1>
-          <p>Select your current mood and receive personalized compliments to lift your spirits. Remember, you're amazing just as you are!</p>
-          <button class="btn btn-primary pulse" onclick="goToMoodSelection()">
-            Begin Your Glow Up ✨
+    <!-- ════════════════════════════════════
+         HOME PAGE
+    ════════════════════════════════════ -->
+    <div class="page active" id="page-home">
+      <div class="home-hero">
+        <div class="hero-eyebrow">✨ Your daily sanctuary</div>
+        <h1 class="hero-headline">
+          You deserve to feel<br><em>absolutely radiant</em> today
+        </h1>
+        <p class="hero-sub">Personalized affirmations, mood-based compliments, breathing exercises — all in one beautiful space.</p>
+        <div class="hero-cta-group">
+          <button class="btn btn-primary" onclick="showPage('mood')">
+            💫 Check in with your mood
           </button>
-          <div class="action-buttons" style="margin-top: 20px;">
-            <button class="btn btn-secondary" onclick="toggleAffirmation()">
-              🌟 Daily Affirmation
-            </button>
-            <button class="btn btn-secondary" onclick="toggleBreathing()">
-              🌬️ Breathing Exercise
-            </button>
-            <button class="btn btn-secondary" onclick="toggleProgress()">
-              📊 Your Progress
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Mood Selection Page -->
-      <div id="moodPage" style="display: none;">
-        <div class="mood-selector">
-          <h2>How are you feeling today?</h2>
-          <p>Choose your current mood to receive a personalized compliment</p>
-          <div class="mood-options" id="moodOptions">
-            <!-- Mood options will be added by JavaScript -->
-          </div>
-          <button class="btn btn-secondary" onclick="goToHomePage()" style="margin-top: 20px;">
-            ← Back to Home
+          <button class="btn btn-outline" onclick="showPage('affirmation')">
+            🌟 Daily affirmation
           </button>
         </div>
       </div>
 
-      <!-- Compliment Page -->
-      <div id="complimentPage" style="display: none;">
-        <div class="compliment-section">
-          <h2>You're feeling <span id="currentMood" style="color: var(--primary-color);"></span></h2>
-          <div class="compliment-card">
-            <div class="compliment-toolbar">
-              <button class="tool-button" id="speakButton" title="Speak this compliment" style="display: none;">
-                🔈
-              </button>
-              <button class="tool-button" id="copyButton" title="Copy to clipboard" style="display: none;">
-                ⎘
-              </button>
-            </div>
-            <p class="compliment-text" id="complimentDisplay">
-              Click the button below to receive your special compliment!
-            </p>
-          </div>
-          <div class="action-buttons">
-            <button class="btn btn-primary" onclick="generateCompliment()">
-              ✨ Cheer Me Up
-            </button>
-            <button class="btn btn-secondary" id="saveButton" onclick="saveToFavorites()" style="display: none;">
-              💖 Save to Favorites
-            </button>
-            <button class="btn btn-secondary" onclick="toggleJournal()">
-              📝 Write Reflection
-            </button>
-            <button class="btn btn-secondary" onclick="toggleFavorites()">
-              ⭐ Show Favorites
-            </button>
-            <button class="btn btn-secondary" onclick="toggleShare()">
-              📤 Share Positivity
-            </button>
-            <button class="btn btn-secondary" onclick="goToMoodSelection()">
-              ↩ Change Mood
-            </button>
+      <div class="stats-bar">
+        <div class="stat-chip">
+          <div class="stat-chip-icon">💬</div>
+          <div>
+            <div class="stat-chip-num" id="homeStatCompliments">0</div>
+            <div class="stat-chip-label">Compliments received</div>
           </div>
         </div>
-
-        <!-- Journal Section -->
-        <div class="journal-section" id="journalSection">
-          <h3>Your Reflection</h3>
-          <p>Take a moment to write how you're feeling</p>
-          <textarea class="journal-textarea" id="journalEntry" placeholder="Today I feel..."></textarea>
-          <div class="action-buttons">
-            <button class="btn btn-primary" onclick="saveJournalEntry()">
-              ✨ Save Reflection
-            </button>
-            <button class="btn btn-secondary" onclick="toggleJournal()">
-              ← Back to Compliment
-            </button>
+        <div class="stat-chip">
+          <div class="stat-chip-icon">💖</div>
+          <div>
+            <div class="stat-chip-num" id="homeStatFavorites">0</div>
+            <div class="stat-chip-label">Saved favorites</div>
           </div>
         </div>
-
-        <!-- Favorites Section -->
-        <div class="favorites-section" id="favoritesSection">
-          <div class="favorites-header">
-            <h3>Your Favorite Compliments</h3>
-            <span class="favorites-count" id="favoritesCount">0 saved</span>
-          </div>
-          <ul class="favorites-list" id="favoritesList">
-            <!-- Favorites will be added here -->
-          </ul>
-          <div class="action-buttons">
-            <button class="btn btn-secondary" onclick="toggleFavorites()">
-              ← Back to Compliment
-            </button>
-          </div>
-        </div>
-
-        <!-- NEW SECTIONS -->
-
-        <!-- Daily Affirmation Section -->
-        <div class="affirmation-section" id="affirmationSection">
-          <h3>Your Daily Affirmation</h3>
-          <div class="affirmation-card">
-            <p class="affirmation-text" id="affirmationDisplay">
-              Click below to receive your daily affirmation!
-            </p>
-          </div>
-          <div class="action-buttons">
-            <button class="btn btn-primary" onclick="generateAffirmation()">
-              ✨ Get Affirmation
-            </button>
-            <button class="btn btn-secondary" onclick="toggleAffirmation()">
-              ← Back to Home
-            </button>
-          </div>
-        </div>
-
-        <!-- Breathing Exercise Section -->
-        <div class="breathing-section" id="breathingSection">
-          <h3>Mindful Breathing Exercise</h3>
-          <p class="breathing-instructions" id="breathingInstructions">
-            Click start to begin a calming breathing exercise
-          </p>
-          <div class="breathing-circle" id="breathingCircle">
-            Breathe
-          </div>
-          <div class="action-buttons">
-            <button class="btn btn-primary" id="startBreathingBtn" onclick="startBreathingExercise()">
-              🌬️ Start Breathing
-            </button>
-            <button class="btn btn-secondary" onclick="toggleBreathing()">
-              ← Back to Home
-            </button>
-          </div>
-        </div>
-
-        <!-- Progress Tracking Section -->
-        <div class="progress-section" id="progressSection">
-          <h3>Your Self-Care Journey</h3>
-          <div class="progress-stats">
-            <div class="stat-card">
-              <div class="stat-number" id="complimentsReceived">0</div>
-              <div class="stat-label">Compliments Received</div>
-            </div>
-            <div class="stat-card">
-              <div class="stat-number" id="favoritesSaved">0</div>
-              <div class="stat-label">Favorites Saved</div>
-            </div>
-            <div class="stat-card">
-              <div class="stat-number" id="journalEntriesCount">0</div>
-              <div class="stat-label">Journal Entries</div>
-            </div>
-          </div>
-          <h4>Your Current Streak</h4>
-          <div class="streak-container" id="streakContainer">
-            <!-- Streak days will be added by JavaScript -->
-          </div>
-          <div class="action-buttons" style="margin-top: 30px;">
-            <button class="btn btn-secondary" onclick="toggleProgress()">
-              ← Back to Home
-            </button>
-          </div>
-        </div>
-
-        <!-- Share Section -->
-        <div class="share-section" id="shareSection">
-          <h3>Spread Positivity</h3>
-          <p>Share a compliment with someone who needs it today</p>
-          <div class="compliment-card">
-            <p class="compliment-text" id="shareComplimentDisplay">
-              Click below to generate a shareable compliment!
-            </p>
-          </div>
-          <div class="share-options">
-            <button class="share-button" onclick="shareToTwitter()" title="Share on Twitter">
-              🐦
-            </button>
-            <button class="share-button" onclick="shareToWhatsApp()" title="Share on WhatsApp">
-              💬
-            </button>
-            <button class="share-button" onclick="copyShareLink()" title="Copy link">
-              ⎘
-            </button>
-          </div>
-          <div class="action-buttons" style="margin-top: 30px;">
-            <button class="btn btn-primary" onclick="generateShareCompliment()">
-              ✨ New Compliment
-            </button>
-            <button class="btn btn-secondary" onclick="toggleShare()">
-              ← Back to Compliment
-            </button>
+        <div class="stat-chip">
+          <div class="stat-chip-icon">📝</div>
+          <div>
+            <div class="stat-chip-num" id="homeStatJournal">0</div>
+            <div class="stat-chip-label">Journal entries</div>
           </div>
         </div>
       </div>
-    </main>
+
+      <div class="feature-grid">
+        <div class="feature-card card-mood" onclick="showPage('mood')">
+          <div class="feature-icon">🎭</div>
+          <div class="feature-label">Mood-based</div>
+          <div class="feature-title">Compliment Generator</div>
+          <div class="feature-desc">Tell us how you're feeling and receive a personalized message to brighten your day.</div>
+          <div class="feature-arrow">→</div>
+        </div>
+        <div class="feature-card card-affirm" onclick="showPage('affirmation')">
+          <div class="feature-icon">🌟</div>
+          <div class="feature-label">Daily practice</div>
+          <div class="feature-title">Affirmations</div>
+          <div class="feature-desc">Start your day with a powerful affirmation designed to shift your mindset.</div>
+          <div class="feature-arrow">→</div>
+        </div>
+        <div class="feature-card card-breath" onclick="showPage('breathing')">
+          <div class="feature-icon">🌬️</div>
+          <div class="feature-label">Mindfulness</div>
+          <div class="feature-title">Breathing Exercise</div>
+          <div class="feature-desc">Guided box breathing and 4-7-8 patterns to calm your nervous system in minutes.</div>
+          <div class="feature-arrow">→</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════
+         MOOD PAGE
+    ════════════════════════════════════ -->
+    <div class="page" id="page-mood">
+      <div class="page-inner">
+        <div class="page-header">
+          <button class="page-back" onclick="showPage('home')">← Back to home</button>
+          <h1 class="page-title">How are you feeling?</h1>
+          <p class="page-subtitle">Pick your current mood and we'll find the perfect words for you.</p>
+        </div>
+        <div class="mood-grid" id="moodGrid"></div>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════
+         COMPLIMENT PAGE
+    ════════════════════════════════════ -->
+    <div class="page" id="page-compliment">
+      <div class="page-inner">
+        <div class="page-header">
+          <button class="page-back" onclick="showPage('mood')">← Change mood</button>
+          <h1 class="page-title">For you, right now ✨</h1>
+          <p class="page-subtitle">Feeling <strong id="cmpMoodLabel" style="color: var(--rose)"></strong> — here's your message.</p>
+        </div>
+
+        <div class="compliment-card-wrap" id="complimentCardWrap">
+          <div class="compliment-mood-badge" id="cmpMoodBadge"></div>
+          <p class="compliment-quote placeholder" id="complimentQuote">Press the button to receive your personal message 💫</p>
+          <div class="card-toolbar" id="complimentToolbar" style="display: none;">
+            <button class="icon-btn" onclick="speakCompliment()" id="speakBtn" title="Speak">🔈</button>
+            <button class="icon-btn" onclick="copyCompliment()" title="Copy">⎘</button>
+          </div>
+        </div>
+
+        <div class="compliment-actions">
+          <button class="btn btn-primary" onclick="generateCompliment()" id="generateBtn">✨ Generate my message</button>
+          <button class="btn btn-outline" onclick="saveToFavorites()" id="saveBtn" style="display: none;">💖 Save to favorites</button>
+        </div>
+        <div class="compliment-actions-row">
+          <button class="btn btn-ghost" onclick="showPage('journal')">📝 Write a reflection</button>
+          <button class="btn btn-ghost" onclick="showPage('share')">📤 Share with someone</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════
+         AFFIRMATION PAGE
+    ════════════════════════════════════ -->
+    <div class="page" id="page-affirmation">
+      <div class="page-inner">
+        <div class="page-header">
+          <button class="page-back" onclick="showPage('home')">← Back to home</button>
+          <h1 class="page-title">Daily Affirmation 🌟</h1>
+          <p class="page-subtitle">A positive intention to carry with you today.</p>
+        </div>
+        <div class="affirmation-wrap">
+          <p class="affirmation-text placeholder" id="affirmationText">Click the button to receive your daily affirmation</p>
+        </div>
+        <div class="compliment-actions">
+          <button class="btn btn-primary" onclick="generateAffirmation()">✨ Give me an affirmation</button>
+          <button class="btn btn-outline" onclick="copyAffirmation()" id="copyAffBtn" style="display: none;">⎘ Copy</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════
+         BREATHING PAGE
+    ════════════════════════════════════ -->
+    <div class="page" id="page-breathing">
+      <div class="page-inner">
+        <div class="page-header">
+          <button class="page-back" onclick="stopBreathing(); showPage('home')">← Back to home</button>
+          <h1 class="page-title">Breathing Exercise 🌬️</h1>
+          <p class="page-subtitle">Follow the circle to find your calm.</p>
+        </div>
+
+        <div class="breath-pattern-toggle">
+          <button class="pattern-chip active" onclick="setPattern('box', this)">Box (4-4-4-4)</button>
+          <button class="pattern-chip" onclick="setPattern('478', this)">4-7-8 Calm</button>
+          <button class="pattern-chip" onclick="setPattern('natural', this)">Natural (5-5)</button>
+        </div>
+
+        <div class="breathing-arena">
+          <div class="breath-orb-wrap">
+            <div class="breath-ring"></div>
+            <div class="breath-ring"></div>
+            <div class="breath-ring"></div>
+            <div class="breath-orb" id="breathOrb">
+              <div class="breath-orb-label" id="breathOrbLabel">Ready</div>
+              <div class="breath-orb-count" id="breathOrbCount">—</div>
+            </div>
+          </div>
+
+          <div class="breath-phase-label" id="breathPhaseLabel">Find a comfortable position</div>
+          <div class="breath-instruction" id="breathInstruction">Sit comfortably, close your eyes, and press start when ready.</div>
+
+          <button class="btn btn-primary" id="breathBtn" onclick="toggleBreathing()">🌬️ Start session</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════
+         JOURNAL PAGE
+    ════════════════════════════════════ -->
+    <div class="page" id="page-journal">
+      <div class="page-inner">
+        <div class="page-header">
+          <button class="page-back" onclick="showPage('home')">← Back to home</button>
+          <h1 class="page-title">Your Reflections 📝</h1>
+          <p class="page-subtitle">A safe space to process your thoughts and feelings.</p>
+        </div>
+
+        <div class="journal-editor">
+          <div class="journal-toolbar">
+            <div class="journal-date" id="journalDateDisplay"></div>
+            <div class="journal-mood-tag" id="journalMoodTag" style="display: none;"></div>
+          </div>
+          <textarea class="journal-textarea" id="journalTextarea" placeholder="Today I feel… What's on your mind?"></textarea>
+        </div>
+        <div class="compliment-actions" style="margin-bottom: 36px;">
+          <button class="btn btn-primary" onclick="saveJournalEntry()">✨ Save reflection</button>
+          <button class="btn btn-outline" onclick="clearJournal()">🗑 Clear</button>
+        </div>
+
+        <div class="journal-entries-list" id="journalList"></div>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════
+         FAVORITES PAGE
+    ════════════════════════════════════ -->
+    <div class="page" id="page-favorites">
+      <div class="page-inner">
+        <div class="page-header">
+          <button class="page-back" onclick="showPage('home')">← Back to home</button>
+          <h1 class="page-title">Saved Favorites 💖</h1>
+          <p class="page-subtitle" id="favSubtitle">Your collection of meaningful compliments.</p>
+        </div>
+        <div class="favorites-grid" id="favoritesGrid"></div>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════
+         PROGRESS PAGE
+    ════════════════════════════════════ -->
+    <div class="page" id="page-progress">
+      <div class="page-inner">
+        <div class="page-header">
+          <button class="page-back" onclick="showPage('home')">← Back to home</button>
+          <h1 class="page-title">Your Journey 📊</h1>
+          <p class="page-subtitle">Track your self-care practice over time.</p>
+        </div>
+
+        <div class="progress-hero">
+          <h3>Total check-ins</h3>
+          <div class="progress-hero-num" id="progTotal">0</div>
+          <div class="progress-hero-sub">Keep up the beautiful work 🌸</div>
+        </div>
+
+        <div class="progress-stats-row">
+          <div class="progress-stat">
+            <div class="progress-stat-num" id="progCompliments">0</div>
+            <div class="progress-stat-label">Compliments</div>
+          </div>
+          <div class="progress-stat">
+            <div class="progress-stat-num" id="progFavorites">0</div>
+            <div class="progress-stat-label">Saved</div>
+          </div>
+          <div class="progress-stat">
+            <div class="progress-stat-num" id="progJournal">0</div>
+            <div class="progress-stat-label">Journal entries</div>
+          </div>
+        </div>
+
+        <div class="streak-section">
+          <div class="streak-title">This week</div>
+          <div class="streak-row" id="streakRow"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════
+         SHARE PAGE
+    ════════════════════════════════════ -->
+    <div class="page" id="page-share">
+      <div class="page-inner">
+        <div class="page-header">
+          <button class="page-back" onclick="showPage('compliment')">← Back</button>
+          <h1 class="page-title">Spread Positivity 📤</h1>
+          <p class="page-subtitle">Share a compliment with someone who needs it today.</p>
+        </div>
+        <div class="share-card">
+          <p class="share-text placeholder" id="shareText">Press the button below to generate a shareable compliment</p>
+        </div>
+        <div class="share-channels">
+          <button class="channel-btn" onclick="shareTwitter()"><span>🐦</span><span>Twitter</span></button>
+          <button class="channel-btn" onclick="shareWhatsApp()"><span>💬</span><span>WhatsApp</span></button>
+          <button class="channel-btn" onclick="copyShareText()"><span>⎘</span><span>Copy</span></button>
+        </div>
+        <div class="compliment-actions">
+          <button class="btn btn-primary" onclick="generateShareCompliment()">✨ New compliment</button>
+          <button class="btn btn-outline" onclick="showPage('compliment')">← Back</button>
+        </div>
+      </div>
+    </div>
+
   </div>
 
-  <!-- Toast Notification -->
-  <div class="toast" id="toast"></div>
-
-  <!-- Audio Elements -->
-  <audio id="cheerSound" src="https://assets.mixkit.co/sfx/preview/mixkit-positive-interface-beep-221.mp3" preload="auto"></audio>
-  <audio id="saveSound" src="https://assets.mixkit.co/sfx/preview/mixkit-unlock-game-notification-253.mp3" preload="auto"></audio>
-  <audio id="clickSound" src="https://assets.mixkit.co/sfx/preview/mixkit-modern-click-box-check-1120.mp3" preload="auto"></audio>
-  <audio id="successSound" src="https://assets.mixkit.co/sfx/preview/mixkit-achievement-bell-600.mp3" preload="auto"></audio>
-  <audio id="breathingSound" src="https://assets.mixkit.co/sfx/preview/mixkit-soft-wind-blowing-1295.mp3" preload="auto"></audio>
+  <!-- TOAST -->
+  <div class="toast-wrap" id="toastWrap">
+    <div class="toast-inner" id="toastInner">✓ Saved</div>
+  </div>
 
   <script>
-    // Moods and Compliments
-    const moods = [
-      { id: 'happy', name: 'Happy', emoji: '😊' },
-      { id: 'excited', name: 'Excited', emoji: '🤩' },
-      { id: 'sad', name: 'Sad', emoji: '😢' },
-      { id: 'tired', name: 'Tired', emoji: '😴' },
-      { id: 'angry', name: 'Angry', emoji: '😡' },
-      { id: 'anxious', name: 'Anxious', emoji: '😰' },
-      { id: 'inspired', name: 'Inspired', emoji: '🌟' },
-      { id: 'loved', name: 'Loved', emoji: '🥰' },
-      { id: 'lonely', name: 'Lonely', emoji: '😔' },
-      { id: 'confident', name: 'Confident', emoji: '💪' },
-      { id: 'creative', name: 'Creative', emoji: '🎨' },
-      { id: 'grateful', name: 'Grateful', emoji: '🙏' }
-    ];
+  // ══════════════════════════════════════
+  // DATA
+  // ══════════════════════════════════════
+  const MOODS = [
+    { id: 'happy',     name: 'Happy',     emoji: '😊' },
+    { id: 'excited',   name: 'Excited',   emoji: '🤩' },
+    { id: 'sad',       name: 'Sad',       emoji: '😢' },
+    { id: 'tired',     name: 'Tired',     emoji: '😴' },
+    { id: 'angry',     name: 'Angry',     emoji: '😡' },
+    { id: 'anxious',   name: 'Anxious',   emoji: '😰' },
+    { id: 'inspired',  name: 'Inspired',  emoji: '🌟' },
+    { id: 'loved',     name: 'Loved',     emoji: '🥰' },
+    { id: 'lonely',    name: 'Lonely',    emoji: '😔' },
+    { id: 'confident', name: 'Confident', emoji: '💪' },
+    { id: 'creative',  name: 'Creative',  emoji: '🎨' },
+    { id: 'grateful',  name: 'Grateful',  emoji: '🙏' }
+  ];
 
-    const compliments = {
-      happy: [
-        "Your positivity is like sunshine on a cloudy day!",
-        "The world sparkles a little brighter because you're in it!",
-        "Your smile could power a small city - it's that radiant!",
-        "You're like a human rainbow - spreading color wherever you go!",
-        "Your joy is contagious in the very best way possible!"
-      ],
-      excited: [
-        "Your enthusiasm is absolutely electric! ⚡",
-        "The world needs your vibrant energy - keep shining!",
-        "Your excitement is so palpable it's giving me goosebumps!",
-        "That spark in your eyes could light up the night sky!",
-        "Your zest for life is absolutely inspiring!"
-      ],
-      sad: [
-        "Even the darkest storms pass - your sunshine will return 🌈",
-        "You're stronger than you feel, braver than you think, and more loved than you know",
-        "This feeling is temporary, but your beautiful spirit is permanent",
-        "You've survived 100% of your tough days so far - that's a perfect record!",
-        "The world needs exactly who you are - scars, struggles and all"
-      ],
-      tired: [
-        "Rest isn't laziness - it's wisdom. Your body knows what it needs 💫",
-        "Even the mightiest trees rest between seasons - you're allowed to too",
-        "Your worth isn't measured by productivity. You matter exactly as you are",
-        "Pause. Breathe. You're exactly where you need to be right now",
-        "Taking care of yourself is the most productive thing you can do today"
-      ],
-      angry: [
-        "Your passion is powerful - channel it wisely and change the world 🔥",
-        "Strong emotions mean you care deeply - that's a beautiful quality",
-        "This too shall pass. You have the strength to ride this wave",
-        "Anger is often love in disguise - be gentle with your fierce heart",
-        "Your feelings are valid. Take a deep breath - you've got this"
-      ],
-      anxious: [
-        "This moment is temporary, but your courage is permanent",
-        "You've survived every anxious moment before - you'll survive this one too",
-        "Breathe deeply. You're safer than your anxiety wants you to believe",
-        "Your sensitivity is a superpower - it just needs careful handling",
-        "You're not alone in this. We're all just doing our best"
-      ],
-      inspired: [
-        "Your ideas have the power to change lives - keep creating!",
-        "The world needs exactly what only you can offer - keep going!",
-        "Your creativity flows like a river - let it carve new paths!",
-        "That spark inside you? It's the beginning of something amazing ✨",
-        "Your passion is contagious - the world is lucky to have your light"
-      ],
-      loved: [
-        "You are loved more deeply than you could possibly imagine",
-        "The world is better because you're in it - never doubt that",
-        "Your capacity to love and be loved is infinite and beautiful",
-        "You're someone's favorite person - maybe even several someones!",
-        "The way you love others is a gift to the world"
-      ],
-      lonely: [
-        "Even when you feel alone, the universe is holding you close",
-        "This loneliness is just your heart making space for new connections",
-        "You're never truly alone - your future self is cheering you on",
-        "The right people will find you - your tribe is out there waiting",
-        "Your own company is precious too - this time will pass"
-      ],
-      confident: [
-        "That self-assurance looks amazing on you - wear it proudly!",
-        "Your confidence is inspiring others more than you know",
-        "When you believe in yourself, the world believes in you too",
-        "That glow of self-assurance? It's your superpower shining through",
-        "Your confidence is contagious - keep spreading that energy!"
-      ],
-      creative: [
-        "Your imagination is a treasure chest of endless possibilities!",
-        "The world needs your unique creative vision - keep expressing!",
-        "That creative spark inside you? It's magic waiting to happen",
-        "Your ideas have wings - let them fly and see where they take you",
-        "Creativity flows through you like a river - keep channeling it!"
-      ],
-      grateful: [
-        "Your gratitude radiates outward and makes the world brighter",
-        "That thankful heart of yours is a beacon of light for others",
-        "Your appreciation for life's gifts is beautiful to witness",
-        "Gratitude looks gorgeous on you - wear it every day",
-        "Your thankful spirit is changing the world one moment at a time"
-      ]
-    };
+  const COMPLIMENTS = {
+    happy:['Your positivity is like sunshine breaking through clouds — the world genuinely glows because you\'re in it.','That smile of yours has a gravitational pull; people orbit around your joy without even realizing it.','You turn ordinary moments into memories. What a remarkable, radiant gift.','Your happiness is never selfish — it spills out and fills up every room you walk into.','The world sparkles a little brighter because you exist in it exactly as you are.'],
+    excited:['Your enthusiasm is electric; you make even the mundane feel like an adventure.','That spark in your eyes is contagious in the very best way. Don\'t ever dim it.','Your excitement is proof that you\'re truly alive and paying attention. That\'s rare and beautiful.','The energy you bring into a room shifts the entire atmosphere. You are a force of nature.','Keep chasing whatever makes you feel this alive — you\'re made for big, beautiful things.'],
+    sad:['Even the deepest oceans have a surface. Your light is still there, waiting to reach it.','You have survived every single hard day before this one. Your record is flawless.','Sadness means you love deeply. That depth of heart is one of your most beautiful qualities.','This feeling is temporary. Your worth, your beauty, your importance — those are permanent.','The world needs exactly who you are: scars, tender heart, and everything in between.'],
+    tired:['Rest is not a reward — it\'s a right. You deserve to restore yourself fully.','Even the most extraordinary people need stillness. You\'re allowed to pause and just be.','Your worth is not measured in productivity. You matter infinitely, even in this quiet moment.','Tiredness is just your body asking for care. Listen to it. You deserve to be looked after.','You\'ve been carrying a lot. Put it down, even just for today. Everything will still be there, and so will your strength.'],
+    angry:['Your passion is one of your greatest gifts. Channel it, and it becomes a superpower.','Strong emotions mean you care deeply about what matters. That\'s not a flaw — it\'s your fire.','Your anger is valid. It\'s also telling you something important about what you value. Listen to it.','Even this fierce, burning energy inside you is beautiful — it\'s the same force that makes you extraordinary.','Ride this wave. On the other side is clarity, and you have the strength to get there.'],
+    anxious:['Anxiety lies — you are safer than it wants you to believe. You are doing so well.','You have navigated every anxious moment that came before this one. Your track record is perfect.','Your sensitivity is a superpower dressed up as a burden. You\'re stronger than you feel right now.','Breathe. You don\'t have to solve everything today. One moment at a time is more than enough.','This feeling is temporary, but your courage in the face of it — that is permanent and real.'],
+    inspired:['That spark you feel? It is the universe whispering that you are exactly where you\'re supposed to be.','Your ideas have wings. Let them fly — the world is waiting to be changed by what you create.','Inspiration chose you for a reason. Trust it, follow it, and see where it takes you.','You are on the edge of something extraordinary. Keep going — you\'re so much closer than you think.','Your creative fire is contagious. Keep burning bright.'],
+    loved:['You are loved more completely than you will ever fully understand. Let that settle into you.','Your capacity to give and receive love is infinite and beautiful. Honor that part of yourself.','Someone right now is thinking about how lucky they are to know you. Believe it.','You are held, you are cherished, you are seen. You never have to earn that — it is simply yours.','The world is genuinely better because you are loved and loving in it.'],
+    lonely:['Even in your loneliest moments, you are deeply connected to something vast and beautiful.','This solitude is not an ending — it\'s the universe clearing space for something wonderful to arrive.','Your own company is precious. You are a whole world. Don\'t underestimate the depth of you.','The right people are out there finding their way to you. Your tribe is coming.','Loneliness is just love with nowhere to go right now. Soon, it will have a home.'],
+    confident:['That self-assurance is extraordinary — wear it like the crown it is.','Your confidence is quietly giving others permission to step into their own. You lead by shining.','When you believe in yourself, you shift the energy of every room you enter. You\'re doing it right now.','That glow of self-assurance isn\'t arrogance — it\'s clarity. And it looks phenomenal on you.','Keep trusting yourself. Your instincts, your voice, your path — they are exactly right.'],
+    creative:['Your imagination is a world unto itself. Every idea you have is a door worth opening.','You see things others miss — that creative eye of yours is a profound and rare gift.','That creative spark inside you is not an accident. You are here to make something.','Your art, your ideas, your way of seeing — they change the people who encounter them. Believe that.','Keep creating. Even on the quiet days. Especially on the quiet days.'],
+    grateful:['Your gratitude radiates outward and shifts the world around you more than you know.','A thankful heart like yours is magnetic. It draws beauty to itself.','Your appreciation for life\'s gifts — even the small ones — is one of your most luminous qualities.','Gratitude looks extraordinary on you. Wear it every single day.','The way you notice and celebrate the good is a rare and beautiful thing. Thank you for being you.']
+  };
 
-    // NEW: Daily Affirmations
-    const affirmations = [
-      "I am worthy of love, joy, and all good things",
-      "I trust the process of life and know I am exactly where I need to be",
-      "I radiate positive energy and attract wonderful experiences",
-      "My challenges help me grow into the person I'm meant to be",
-      "I am enough, just as I am in this moment",
-      "My mind is calm, my heart is open, my soul is at peace",
-      "I release what no longer serves me and welcome new blessings",
-      "I am the architect of my life; I build its foundation and choose its contents",
-      "Today, I choose joy over fear, love over doubt, and peace over anxiety",
-      "I am constantly growing and evolving into a better version of myself"
-    ];
+  const AFFIRMATIONS = [
+    'I am worthy of love, joy, and every good thing that comes my way.',
+    'I trust the unfolding of my life. I am exactly where I need to be.',
+    'I radiate warmth, confidence, and quiet strength today.',
+    'My challenges are not obstacles — they are the path that shapes me.',
+    'I am enough, right now, exactly as I am. I do not need to earn my place.',
+    'My mind is calm. My heart is open. My spirit is at peace.',
+    'I release what no longer serves me and welcome new abundance.',
+    'I am the author of my story. Today, I write something beautiful.',
+    'I choose joy over fear, growth over comfort, love over doubt.',
+    'I am constantly becoming a richer, deeper, truer version of myself.',
+    'My presence is a gift. I show up fully, and that is more than enough.',
+    'Today I give myself the same compassion I freely give to others.',
+    'I trust my own voice. My perspective has value and power.',
+    'I am rooted. I am resilient. I am rising.'
+  ];
 
-    // App State
-    let currentMood = null;
-    let currentCompliment = null;
-    let currentAffirmation = null;
-    let journalEntries = JSON.parse(localStorage.getItem('journalEntries')) || [];
-    let favoriteCompliments = JSON.parse(localStorage.getItem('favoriteCompliments')) || [];
-    let complimentsReceived = parseInt(localStorage.getItem('complimentsReceived')) || 0;
-    let userStreak = JSON.parse(localStorage.getItem('userStreak')) || { count: 0, lastDate: null };
-    let currentSpeech = null;
-    let breathingInterval = null;
+  const BREATHING_PATTERNS = {
+    box:     { phases: ['Breathe in', 'Hold', 'Breathe out', 'Hold'], durations: [4, 4, 4, 4], label: 'Box Breathing' },
+    '478':   { phases: ['Breathe in', 'Hold', 'Breathe out'], durations: [4, 7, 8], label: '4-7-8 Breathing' },
+    natural: { phases: ['Breathe in', 'Breathe out'], durations: [5, 5], label: 'Natural Breathing' }
+  };
 
-    // DOM Elements
-    const cheerSound = document.getElementById('cheerSound');
-    const saveSound = document.getElementById('saveSound');
-    const clickSound = document.getElementById('clickSound');
-    const successSound = document.getElementById('successSound');
-    const breathingSound = document.getElementById('breathingSound');
-    const saveButton = document.getElementById('saveButton');
-    const speakButton = document.getElementById('speakButton');
-    const copyButton = document.getElementById('copyButton');
-    const toast = document.getElementById('toast');
+  // ══════════════════════════════════════
+  // STATE
+  // ══════════════════════════════════════
+  let currentMood = null;
+  let currentCompliment = null;
+  let currentAffirmation = null;
+  let currentShareText = null;
+  let breathingActive = false;
+  let breathingTimeout = null;
+  let breathingPattern = 'box';
+  let currentSpeech = null;
 
-    // Initialize the app
-    function init() {
-      renderMoodOptions();
-      updateFavoritesCount();
-      createFloatingElements();
+  const ls = key => { try { return JSON.parse(localStorage.getItem(key)); } catch { return null; } };
+  const lsSet = (key, val) => { try { localStorage.setItem(key, JSON.stringify(val)); } catch {} };
+
+  let favorites      = ls('gb_favorites')      || [];
+  let journalEntries = ls('gb_journal')         || [];
+  let complimentsN   = ls('gb_compliments_n')   || 0;
+  let streak         = ls('gb_streak')          || { count: 0, lastDate: null };
+
+  // ══════════════════════════════════════
+  // PAGE ROUTER
+  // ══════════════════════════════════════
+  function showPage(id, navEl) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    const target = document.getElementById('page-' + id);
+    if (target) target.classList.add('active');
+
+    if (navEl) {
+      document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+      navEl.classList.add('active');
+    }
+
+    // Sync nav
+    const map = { home: 0, journal: 1, favorites: 2, progress: 3 };
+    if (id in map) {
+      const navBtns = document.querySelectorAll('.nav-btn');
+      navBtns.forEach(b => b.classList.remove('active'));
+      if (navBtns[map[id]]) navBtns[map[id]].classList.add('active');
+    }
+
+    // Page-specific setup
+    if (id === 'journal')   renderJournal();
+    if (id === 'favorites') renderFavorites();
+    if (id === 'progress')  renderProgress();
+    if (id === 'home')      updateHomeStats();
+    if (id === 'journal') {
+      const today = new Date();
+      document.getElementById('journalDateDisplay').textContent =
+        today.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+      const tag = document.getElementById('journalMoodTag');
+      if (currentMood) {
+        const m = MOODS.find(x => x.id === currentMood);
+        tag.textContent = m.emoji + ' ' + m.name;
+        tag.style.display = 'block';
+      } else { tag.style.display = 'none'; }
+    }
+  }
+
+  // ══════════════════════════════════════
+  // MOOD GRID
+  // ══════════════════════════════════════
+  function buildMoodGrid() {
+    const grid = document.getElementById('moodGrid');
+    grid.innerHTML = '';
+    MOODS.forEach(m => {
+      const tile = document.createElement('div');
+      tile.className = 'mood-tile';
+      tile.dataset.id = m.id;
+      tile.innerHTML = `<span class="mood-emoji">${m.emoji}</span><span class="mood-name">${m.name}</span>`;
+      tile.onclick = () => selectMood(m.id);
+      grid.appendChild(tile);
+    });
+  }
+
+  function selectMood(id) {
+    currentMood = id;
+    document.querySelectorAll('.mood-tile').forEach(t => {
+      t.classList.toggle('selected', t.dataset.id === id);
+    });
+    const m = MOODS.find(x => x.id === id);
+    document.getElementById('cmpMoodLabel').textContent = m.name.toLowerCase();
+    document.getElementById('cmpMoodBadge').textContent = m.emoji + ' ' + m.name;
+    document.getElementById('complimentQuote').textContent = 'Press the button to receive your personal message 💫';
+    document.getElementById('complimentQuote').className = 'compliment-quote placeholder';
+    document.getElementById('saveBtn').style.display = 'none';
+    document.getElementById('complimentToolbar').style.display = 'none';
+    currentCompliment = null;
+    setTimeout(() => showPage('compliment'), 200);
+  }
+
+  // ══════════════════════════════════════
+  // COMPLIMENT GENERATOR
+  // ══════════════════════════════════════
+  function generateCompliment() {
+    if (!currentMood) { showToast('Please select a mood first', 'error'); return; }
+    const btn = document.getElementById('generateBtn');
+    btn.innerHTML = '<span class="loading-dots"><span class="loading-dot"></span><span class="loading-dot"></span><span class="loading-dot"></span></span>';
+    btn.disabled = true;
+
+    setTimeout(() => {
+      const pool = COMPLIMENTS[currentMood];
+      const text = pool[Math.floor(Math.random() * pool.length)];
+      currentCompliment = text;
+      const el = document.getElementById('complimentQuote');
+      el.textContent = text;
+      el.className = 'compliment-quote fade-in';
+
+      document.getElementById('complimentCardWrap').classList.add('pulse-once');
+      document.getElementById('saveBtn').style.display = 'flex';
+      document.getElementById('complimentToolbar').style.display = 'flex';
+
+      btn.innerHTML = '✨ New message';
+      btn.disabled = false;
+
+      complimentsN++;
+      lsSet('gb_compliments_n', complimentsN);
       updateStreak();
-      updateProgressStats();
-      
-      // Check for saved theme preference
-      if (localStorage.getItem('nightMode') === 'true') {
-        document.body.classList.add("night-mode");
-        document.getElementById("theme-icon").textContent = "☀️";
-      }
-    }
+      updateHomeStats();
+      createConfetti();
+    }, 600);
+  }
 
-    function createFloatingElements() {
-      const container = document.getElementById('floatingElements');
-      const elementCount = 30;
-      
-      for (let i = 0; i < elementCount; i++) {
-        setTimeout(() => {
-          const element = document.createElement('div');
-          const type = Math.random();
-          const size = Math.random() * 20 + 5;
-          const duration = Math.random() * 30 + 20;
-          const delay = Math.random() * 5;
-          const left = Math.random() * 100;
-          
-          if (type < 0.6) {
-            // Bubble
-            element.className = 'floating-bubble';
-            element.style.width = `${size}px`;
-            element.style.height = `${size}px`;
-            element.style.backgroundColor = getRandomColor();
-            element.style.animationDuration = `${duration}s`;
-            element.style.animationDelay = `${delay}s`;
-            element.style.left = `${left}%`;
-            element.style.filter = `blur(${Math.random() * 2}px)`;
-            element.style.opacity = Math.random() * 0.5 + 0.3;
-          } else if (type < 0.9) {
-            // Star
-            element.className = 'floating-star';
-            element.style.width = `${size / 2}px`;
-            element.style.height = `${size / 2}px`;
-            element.style.animationDuration = `${duration / 2}s`;
-            element.style.animationDelay = `${delay}s`;
-            element.style.left = `${left}%`;
-            element.style.animationIterationCount = 'infinite';
-          } else {
-            // Heart
-            element.className = 'floating-heart';
-            element.innerHTML = '❤️';
-            element.style.fontSize = `${size}px`;
-            element.style.animationDuration = `${duration}s`;
-            element.style.animationDelay = `${delay}s`;
-            element.style.left = `${left}%`;
-          }
-          
-          container.appendChild(element);
-        }, i * 300);
-      }
-    }
+  function speakCompliment() {
+    if (!currentCompliment) return;
+    if (currentSpeech) { window.speechSynthesis.cancel(); currentSpeech = null; document.getElementById('speakBtn').textContent = '🔈'; return; }
+    const utt = new SpeechSynthesisUtterance(currentCompliment);
+    utt.rate = 0.88; utt.pitch = 1.05;
+    const voices = window.speechSynthesis.getVoices();
+    const v = voices.find(x => x.lang.startsWith('en'));
+    if (v) utt.voice = v;
+    currentSpeech = utt;
+    document.getElementById('speakBtn').textContent = '🔊';
+    utt.onend = () => { currentSpeech = null; document.getElementById('speakBtn').textContent = '🔈'; };
+    window.speechSynthesis.speak(utt);
+  }
 
-    function renderMoodOptions() {
-      const moodOptions = document.getElementById('moodOptions');
-      moodOptions.innerHTML = '';
-      
-      moods.forEach(mood => {
-        const option = document.createElement('div');
-        option.className = 'mood-option';
-        option.innerHTML = `${mood.emoji} ${mood.name}`;
-        option.onclick = () => {
-          playSound(clickSound);
-          selectMood(mood.id);
-        };
-        moodOptions.appendChild(option);
-      });
-    }
+  function copyCompliment() {
+    if (!currentCompliment) return;
+    navigator.clipboard.writeText(currentCompliment).then(() => showToast('Copied! 📋', 'success'));
+  }
 
-    function goToHomePage() {
-      playSound(clickSound);
-      document.getElementById("homePage").style.display = "block";
-      document.getElementById("moodPage").style.display = "none";
-      document.getElementById("complimentPage").style.display = "none";
-      currentMood = null;
-      
-      if (currentSpeech) {
-        window.speechSynthesis.cancel();
-        currentSpeech = null;
-      }
-    }
+  function saveToFavorites() {
+    if (!currentCompliment) { showToast('Generate a compliment first', 'error'); return; }
+    const already = favorites.some(f => f.text === currentCompliment);
+    if (already) { showToast('Already in your favorites!', 'info'); return; }
+    const m = MOODS.find(x => x.id === currentMood);
+    favorites.unshift({ text: currentCompliment, mood: currentMood, moodName: m.name, emoji: m.emoji, date: new Date().toLocaleDateString(), ts: Date.now() });
+    lsSet('gb_favorites', favorites);
+    updateHomeStats();
+    showToast('Saved to favorites 💖', 'success');
+    document.getElementById('saveBtn').textContent = '✅ Saved!';
+    setTimeout(() => { document.getElementById('saveBtn').textContent = '💖 Save to favorites'; }, 2000);
+  }
 
-    function goToMoodSelection() {
-      playSound(clickSound);
-      document.getElementById("homePage").style.display = "none";
-      document.getElementById("complimentPage").style.display = "none";
-      document.getElementById("moodPage").style.display = "block";
-      currentMood = null;
-      saveButton.style.display = "none";
-      speakButton.style.display = "none";
-      copyButton.style.display = "none";
-      
-      if (currentSpeech) {
-        window.speechSynthesis.cancel();
-        currentSpeech = null;
-      }
-    }
+  // ══════════════════════════════════════
+  // AFFIRMATION
+  // ══════════════════════════════════════
+  function generateAffirmation() {
+    const el = document.getElementById('affirmationText');
+    el.className = 'affirmation-text';
+    el.textContent = '…';
+    setTimeout(() => {
+      const text = AFFIRMATIONS[Math.floor(Math.random() * AFFIRMATIONS.length)];
+      currentAffirmation = text;
+      el.textContent = text;
+      el.classList.add('fade-in');
+      document.getElementById('copyAffBtn').style.display = 'flex';
+      createConfetti();
+    }, 500);
+  }
 
-    function selectMood(mood) {
-      currentMood = mood;
-      
-      setTimeout(() => {
-        document.getElementById("moodPage").style.display = "none";
-        document.getElementById("complimentPage").style.display = "block";
-        document.querySelector(".compliment-section").style.display = "flex";
-        document.getElementById("favoritesSection").style.display = "none";
-        document.getElementById("journalSection").style.display = "none";
-        document.getElementById("affirmationSection").style.display = "none";
-        document.getElementById("breathingSection").style.display = "none";
-        document.getElementById("progressSection").style.display = "none";
-        document.getElementById("shareSection").style.display = "none";
-        
-        const selectedMood = moods.find(m => m.id === mood);
-        document.getElementById("currentMood").textContent = selectedMood.name.toLowerCase();
-        document.getElementById("complimentDisplay").textContent = "Click the button below to receive your special compliment!";
-        
-        saveButton.style.display = "none";
-        speakButton.style.display = "none";
-        copyButton.style.display = "none";
-      }, 300);
-    }
+  function copyAffirmation() {
+    if (currentAffirmation) navigator.clipboard.writeText(currentAffirmation).then(() => showToast('Copied! 📋', 'success'));
+  }
 
-    function generateCompliment() {
-      playSound(clickSound);
-      
-      if (!currentMood) {
-        showToast("Please select a mood first!", "error");
-        return;
-      }
-      
-      document.getElementById("complimentDisplay").textContent = "Generating your special compliment...";
-      
-      setTimeout(() => {
-        const moodCompliments = compliments[currentMood];
-        const randomCompliment = moodCompliments[Math.floor(Math.random() * moodCompliments.length)];
-        currentCompliment = randomCompliment;
-        
-        const complimentDisplay = document.getElementById("complimentDisplay");
-        complimentDisplay.textContent = "";
-        complimentDisplay.classList.remove("fade-in");
-        
-        void complimentDisplay.offsetWidth;
-        
-        complimentDisplay.textContent = randomCompliment;
-        complimentDisplay.classList.add("fade-in");
-        
-        const card = document.querySelector(".compliment-card");
-        card.classList.add("pulse");
-        setTimeout(() => card.classList.remove("pulse"), 2000);
-        
-        saveButton.style.display = "flex";
-        speakButton.style.display = "flex";
-        copyButton.style.display = "flex";
-        
-        // Update stats
-        complimentsReceived++;
-        localStorage.setItem('complimentsReceived', complimentsReceived);
-        updateStreak();
-        updateProgressStats();
-        
-        playSound(cheerSound);
-        createConfetti();
-      }, 300);
-    }
+  // ══════════════════════════════════════
+  // BREATHING
+  // ══════════════════════════════════════
+  function setPattern(p, el) {
+    breathingPattern = p;
+    document.querySelectorAll('.pattern-chip').forEach(c => c.classList.remove('active'));
+    el.classList.add('active');
+  }
 
-    // NEW: Daily Affirmation Feature
-    function toggleAffirmation() {
-      const affirmationSection = document.getElementById("affirmationSection");
-      const isHidden = affirmationSection.style.display !== 'block';
-      
-      playSound(clickSound);
-      
-      if (isHidden) {
-        affirmationSection.style.display = 'block';
-        document.querySelector(".compliment-section").style.display = 'none';
-        document.getElementById("favoritesSection").style.display = 'none';
-        document.getElementById("journalSection").style.display = 'none';
-        document.getElementById("breathingSection").style.display = 'none';
-        document.getElementById("progressSection").style.display = 'none';
-        document.getElementById("shareSection").style.display = 'none';
-        document.getElementById("homePage").style.display = 'none';
-        document.getElementById("complimentPage").style.display = 'block';
-      } else {
-        affirmationSection.style.display = 'none';
-        document.getElementById("homePage").style.display = 'block';
-        document.getElementById("complimentPage").style.display = 'none';
-      }
-    }
+  function toggleBreathing() {
+    if (breathingActive) { stopBreathing(); return; }
+    startBreathing();
+  }
 
-    function generateAffirmation() {
-      playSound(clickSound);
-      
-      document.getElementById("affirmationDisplay").textContent = "Generating your daily affirmation...";
-      
-      setTimeout(() => {
-        const randomAffirmation = affirmations[Math.floor(Math.random() * affirmations.length)];
-        currentAffirmation = randomAffirmation;
-        
-        const affirmationDisplay = document.getElementById("affirmationDisplay");
-        affirmationDisplay.textContent = "";
-        affirmationDisplay.classList.remove("fade-in");
-        
-        void affirmationDisplay.offsetWidth;
-        
-        affirmationDisplay.textContent = randomAffirmation;
-        affirmationDisplay.classList.add("fade-in");
-        
-        const card = document.querySelector(".affirmation-card");
-        card.classList.add("pulse");
-        setTimeout(() => card.classList.remove("pulse"), 2000);
-        
-        playSound(cheerSound);
-        createConfetti();
-      }, 300);
-    }
+  function startBreathing() {
+    breathingActive = true;
+    document.getElementById('breathBtn').textContent = '⏹ Stop session';
+    const pat = BREATHING_PATTERNS[breathingPattern];
+    let phaseIdx = 0;
+    let timeLeft = pat.durations[0];
 
-    // NEW: Breathing Exercise Feature
-    function toggleBreathing() {
-      const breathingSection = document.getElementById("breathingSection");
-      const isHidden = breathingSection.style.display !== 'block';
-      
-      playSound(clickSound);
-      
-      if (isHidden) {
-        breathingSection.style.display = 'block';
-        document.querySelector(".compliment-section").style.display = 'none';
-        document.getElementById("favoritesSection").style.display = 'none';
-        document.getElementById("journalSection").style.display = 'none';
-        document.getElementById("affirmationSection").style.display = 'none';
-        document.getElementById("progressSection").style.display = 'none';
-        document.getElementById("shareSection").style.display = 'none';
-        document.getElementById("homePage").style.display = 'none';
-        document.getElementById("complimentPage").style.display = 'block';
-        
-        // Reset breathing circle
-        document.getElementById("breathingCircle").style.transform = "scale(1)";
-        document.getElementById("breathingCircle").textContent = "Breathe";
-        document.getElementById("breathingInstructions").textContent = "Click start to begin a calming breathing exercise";
-        document.getElementById("startBreathingBtn").textContent = "🌬️ Start Breathing";
-      } else {
-        breathingSection.style.display = 'none';
-        document.getElementById("homePage").style.display = 'block';
-        document.getElementById("complimentPage").style.display = 'none';
-        
-        // Stop any ongoing breathing exercise
-        if (breathingInterval) {
-          clearInterval(breathingInterval);
-          breathingInterval = null;
-        }
-      }
-    }
+    function runPhase() {
+      if (!breathingActive) return;
+      const phase = pat.phases[phaseIdx];
+      const dur   = pat.durations[phaseIdx];
+      const orb   = document.getElementById('breathOrb');
+      document.getElementById('breathOrbLabel').textContent = phase;
+      document.getElementById('breathPhaseLabel').textContent = phase;
+      document.getElementById('breathInstruction').textContent =
+        phase === 'Breathe in'  ? 'Expand your belly gently as you inhale…' :
+        phase === 'Breathe out' ? 'Exhale slowly and completely…'           :
+                                  'Be still. Hold effortlessly…';
 
-    function startBreathingExercise() {
-      const breathingCircle = document.getElementById("breathingCircle");
-      const instructions = document.getElementById("breathingInstructions");
-      const startBtn = document.getElementById("startBreathingBtn");
-      
-      if (breathingInterval) {
-        // Stop the exercise
-        clearInterval(breathingInterval);
-        breathingInterval = null;
-        breathingCircle.style.transform = "scale(1)";
-        breathingCircle.textContent = "Breathe";
-        instructions.textContent = "Click start to begin a calming breathing exercise";
-        startBtn.textContent = "🌬️ Start Breathing";
-        return;
-      }
-      
-      // Start the exercise
-      startBtn.textContent = "⏹️ Stop Breathing";
-      let phase = 0; // 0: inhale, 1: hold, 2: exhale, 3: hold
-      let scale = 1;
-      
-      breathingInterval = setInterval(() => {
-        switch(phase) {
-          case 0: // Inhale (4 seconds)
-            instructions.textContent = "Breathe in...";
-            scale += 0.25;
-            breathingCircle.style.transform = `scale(${scale})`;
-            if (scale >= 2) {
-              phase = 1;
-              scale = 2;
-            }
-            break;
-          case 1: // Hold (4 seconds)
-            instructions.textContent = "Hold...";
-            if (scale > 1.9) {
-              scale -= 0.025;
-              breathingCircle.style.transform = `scale(${scale})`;
-            }
-            setTimeout(() => { phase = 2; }, 4000);
-            break;
-          case 2: // Exhale (6 seconds)
-            instructions.textContent = "Breathe out...";
-            scale -= 0.17;
-            breathingCircle.style.transform = `scale(${scale})`;
-            if (scale <= 1) {
-              phase = 3;
-              scale = 1;
-            }
-            break;
-          case 3: // Hold (2 seconds)
-            instructions.textContent = "Hold...";
-            setTimeout(() => { phase = 0; }, 2000);
-            break;
-        }
-        
-        breathingCircle.textContent = phase === 0 ? "Breathe In" : 
-                                     phase === 1 ? "Hold" : 
-                                     phase === 2 ? "Breathe Out" : "Hold";
-      }, 1000);
-    }
+      if (phase === 'Breathe in')  orb.style.transform = 'scale(1.4)';
+      else if (phase === 'Breathe out') orb.style.transform = 'scale(0.85)';
+      else orb.style.transform = orb.style.transform;
 
-    // NEW: Progress Tracking Feature
-    function toggleProgress() {
-      const progressSection = document.getElementById("progressSection");
-      const isHidden = progressSection.style.display !== 'block';
-      
-      playSound(clickSound);
-      
-      if (isHidden) {
-        progressSection.style.display = 'block';
-        document.querySelector(".compliment-section").style.display = 'none';
-        document.getElementById("favoritesSection").style.display = 'none';
-        document.getElementById("journalSection").style.display = 'none';
-        document.getElementById("affirmationSection").style.display = 'none';
-        document.getElementById("breathingSection").style.display = 'none';
-        document.getElementById("shareSection").style.display = 'none';
-        document.getElementById("homePage").style.display = 'none';
-        document.getElementById("complimentPage").style.display = 'block';
-        
-        updateProgressStats();
-        renderStreak();
-      } else {
-        progressSection.style.display = 'none';
-        document.getElementById("homePage").style.display = 'block';
-        document.getElementById("complimentPage").style.display = 'none';
-      }
-    }
+      timeLeft = dur;
+      document.getElementById('breathOrbCount').textContent = timeLeft;
 
-    function updateProgressStats() {
-      document.getElementById("complimentsReceived").textContent = complimentsReceived;
-      document.getElementById("favoritesSaved").textContent = favoriteCompliments.length;
-      document.getElementById("journalEntriesCount").textContent = journalEntries.length;
-    }
-
-    function updateStreak() {
-      const today = new Date().toDateString();
-      
-      if (userStreak.lastDate !== today) {
-        const yesterday = new Date();
-        yesterday.setDate(yesterday.getDate() - 1);
-        
-        if (userStreak.lastDate === yesterday.toDateString()) {
-          userStreak.count++;
-        } else {
-          userStreak.count = 1;
-        }
-        
-        userStreak.lastDate = today;
-        localStorage.setItem('userStreak', JSON.stringify(userStreak));
-      }
-    }
-
-    function renderStreak() {
-      const streakContainer = document.getElementById("streakContainer");
-      streakContainer.innerHTML = '';
-      
-      for (let i = 6; i >= 0; i--) {
-        const date = new Date();
-        date.setDate(date.getDate() - i);
-        const dateString = date.toDateString();
-        
-        const dayElement = document.createElement('div');
-        dayElement.className = 'streak-day';
-        dayElement.textContent = date.getDate();
-        
-        if (userStreak.lastDate === dateString) {
-          dayElement.classList.add('active');
-        }
-        
-        streakContainer.appendChild(dayElement);
-      }
-    }
-
-    // NEW: Share Feature
-    function toggleShare() {
-      const shareSection = document.getElementById("shareSection");
-      const isHidden = shareSection.style.display !== 'block';
-      
-      playSound(clickSound);
-      
-      if (isHidden) {
-        shareSection.style.display = 'block';
-        document.querySelector(".compliment-section").style.display = 'none';
-        document.getElementById("favoritesSection").style.display = 'none';
-        document.getElementById("journalSection").style.display = 'none';
-        document.getElementById("affirmationSection").style.display = 'none';
-        document.getElementById("breathingSection").style.display = 'none';
-        document.getElementById("progressSection").style.display = 'none';
-      } else {
-        shareSection.style.display = 'none';
-        document.querySelector(".compliment-section").style.display = 'flex';
-      }
-    }
-
-    function generateShareCompliment() {
-      playSound(clickSound);
-      
-      document.getElementById("shareComplimentDisplay").textContent = "Generating a shareable compliment...";
-      
-      setTimeout(() => {
-        // Get a random compliment from any mood
-        const allCompliments = Object.values(compliments).flat();
-        const randomCompliment = allCompliments[Math.floor(Math.random() * allCompliments.length)];
-        
-        const shareDisplay = document.getElementById("shareComplimentDisplay");
-        shareDisplay.textContent = "";
-        shareDisplay.classList.remove("fade-in");
-        
-        void shareDisplay.offsetWidth;
-        
-        shareDisplay.textContent = randomCompliment;
-        shareDisplay.classList.add("fade-in");
-        
-        playSound(cheerSound);
-      }, 300);
-    }
-
-    function shareToTwitter() {
-      const compliment = document.getElementById("shareComplimentDisplay").textContent;
-      if (compliment.includes("Click below")) {
-        showToast("Please generate a compliment first!", "error");
-        return;
-      }
-      
-      const text = `Spread some positivity! ${compliment} - Shared via Glow Bloom ✨`;
-      const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`;
-      window.open(url, '_blank');
-    }
-
-    function shareToWhatsApp() {
-      const compliment = document.getElementById("shareComplimentDisplay").textContent;
-      if (compliment.includes("Click below")) {
-        showToast("Please generate a compliment first!", "error");
-        return;
-      }
-      
-      const text = `Spread some positivity! ${compliment} - Shared via Glow Bloom ✨`;
-      const url = `https://wa.me/?text=${encodeURIComponent(text)}`;
-      window.open(url, '_blank');
-    }
-
-    function copyShareLink() {
-      const compliment = document.getElementById("shareComplimentDisplay").textContent;
-      if (compliment.includes("Click below")) {
-        showToast("Please generate a compliment first!", "error");
-        return;
-      }
-      
-      const text = `Spread some positivity! ${compliment} - Shared via Glow Bloom ✨`;
-      navigator.clipboard.writeText(text).then(() => {
-        showToast("Copied to clipboard!", "success");
-      }).catch(err => {
-        console.error("Copy failed:", err);
-        showToast("Failed to copy", "error");
-      });
-    }
-
-    // Existing functions (unchanged)
-    function speakCompliment() {
-      const compliment = document.getElementById("complimentDisplay").textContent;
-      
-      if (!compliment || compliment.includes("Click the button")) {
-        showToast("Please generate a compliment first!", "error");
-        return;
-      }
-      
-      if (currentSpeech) {
-        window.speechSynthesis.cancel();
-      }
-      
-      const utterance = new SpeechSynthesisUtterance(compliment);
-      utterance.rate = 0.9;
-      utterance.pitch = 1.1;
-      utterance.volume = 1;
-      
-      const voices = window.speechSynthesis.getVoices();
-      const femaleVoice = voices.find(voice => 
-        voice.name.includes('Female') || 
-        voice.name.includes('woman') || 
-        voice.lang.includes('en-US')
-      );
-      
-      if (femaleVoice) {
-        utterance.voice = femaleVoice;
-      }
-      
-      utterance.onerror = (event) => {
-        console.error("Speech error:", event);
-        speakButton.innerHTML = '🔈';
-        showToast("Sorry, speech failed. Please try again.", "error");
-      };
-      
-      const voiceTimeout = setTimeout(() => {
-        if (!utterance.voice) {
-          window.speechSynthesis.speak(utterance);
+      const ticker = setInterval(() => {
+        if (!breathingActive) { clearInterval(ticker); return; }
+        timeLeft--;
+        document.getElementById('breathOrbCount').textContent = timeLeft;
+        if (timeLeft <= 0) {
+          clearInterval(ticker);
+          phaseIdx = (phaseIdx + 1) % pat.phases.length;
+          breathingTimeout = setTimeout(runPhase, 300);
         }
       }, 1000);
-      
-      currentSpeech = utterance;
-      window.speechSynthesis.speak(utterance);
-      
-      speakButton.innerHTML = '🔊';
-      utterance.onend = () => {
-        clearTimeout(voiceTimeout);
-        speakButton.innerHTML = '🔈';
-        currentSpeech = null;
-      };
     }
+    runPhase();
+  }
 
-    function copyCompliment() {
-      const compliment = document.getElementById("complimentDisplay").textContent;
-      
-      if (!compliment || compliment.includes("Click the button")) {
-        showToast("Please generate a compliment first!", "error");
-        return;
-      }
-      
-      navigator.clipboard.writeText(compliment).then(() => {
-        showToast("Copied to clipboard!", "success");
-      }).catch(err => {
-        console.error("Copy failed:", err);
-        showToast("Failed to copy", "error");
-      });
+  function stopBreathing() {
+    breathingActive = false;
+    clearTimeout(breathingTimeout);
+    const orb = document.getElementById('breathOrb');
+    orb.style.transform = 'scale(1)';
+    document.getElementById('breathOrbLabel').textContent = 'Ready';
+    document.getElementById('breathOrbCount').textContent = '—';
+    document.getElementById('breathPhaseLabel').textContent = 'Find a comfortable position';
+    document.getElementById('breathInstruction').textContent = 'Sit comfortably, close your eyes, and press start when ready.';
+    document.getElementById('breathBtn').textContent = '🌬️ Start session';
+  }
+
+  // ══════════════════════════════════════
+  // JOURNAL
+  // ══════════════════════════════════════
+  function saveJournalEntry() {
+    const text = document.getElementById('journalTextarea').value.trim();
+    if (!text) { showToast('Write something first ✏️', 'error'); return; }
+    journalEntries.unshift({ text, date: new Date().toLocaleDateString(), mood: currentMood, ts: Date.now() });
+    lsSet('gb_journal', journalEntries);
+    document.getElementById('journalTextarea').value = '';
+    renderJournal();
+    updateHomeStats();
+    showToast('Reflection saved 📝', 'success');
+  }
+
+  function clearJournal() { document.getElementById('journalTextarea').value = ''; }
+
+  function renderJournal() {
+    const list = document.getElementById('journalList');
+    list.innerHTML = '';
+    if (!journalEntries.length) {
+      list.innerHTML = '<p style="opacity:.45; text-align:center; padding: 20px 0;">No reflections yet. Write your first one above.</p>';
+      return;
     }
+    journalEntries.forEach(e => {
+      const m = MOODS.find(x => x.id === e.mood);
+      const item = document.createElement('div');
+      item.className = 'journal-entry-item';
+      item.innerHTML = `
+        <div class="journal-entry-date">${e.date}${m ? ' · ' + m.emoji + ' ' + m.name : ''}</div>
+        <div class="journal-entry-text">${e.text}</div>`;
+      list.appendChild(item);
+    });
+  }
 
-    function createConfetti() {
-      for (let i = 0; i < 50; i++) {
-        const confetti = document.createElement('div');
-        confetti.className = 'confetti';
-        confetti.style.left = Math.random() * 100 + 'vw';
-        confetti.style.backgroundColor = getRandomColor();
-        confetti.style.width = Math.random() * 10 + 5 + 'px';
-        confetti.style.height = Math.random() * 10 + 5 + 'px';
-        confetti.style.animationDuration = Math.random() * 3 + 2 + 's';
-        document.body.appendChild(confetti);
-        
-        setTimeout(() => confetti.remove(), 5000);
-      }
+  // ══════════════════════════════════════
+  // FAVORITES
+  // ══════════════════════════════════════
+  function renderFavorites() {
+    const grid = document.getElementById('favoritesGrid');
+    grid.innerHTML = '';
+    document.getElementById('favSubtitle').textContent =
+      favorites.length ? `${favorites.length} saved compliment${favorites.length !== 1 ? 's' : ''}` : 'Your collection of meaningful compliments.';
+    if (!favorites.length) {
+      grid.innerHTML = '<p style="opacity:.45; grid-column: 1/-1; text-align:center; padding: 20px 0;">No favorites yet. Generate compliments and save the ones that resonate!</p>';
+      return;
     }
+    favorites.forEach((f, i) => {
+      const card = document.createElement('div');
+      card.className = 'fav-card';
+      card.innerHTML = `
+        <div class="fav-card-actions">
+          <button class="icon-btn" onclick="copyFav(${i})" title="Copy">⎘</button>
+          <button class="icon-btn" onclick="deleteFav(${i})" title="Remove">✕</button>
+        </div>
+        <div class="fav-card-mood">${f.emoji} ${f.moodName}</div>
+        <div class="fav-card-text">"${f.text}"</div>
+        <div class="fav-card-date">Saved ${f.date}</div>`;
+      grid.appendChild(card);
+    });
+  }
 
-    function getRandomColor() {
-      const colors = [
-        '#8A2BE2', '#FF69B4', '#FFD700', 
-        '#34A853', '#4285F4', '#EA4335',
-        '#BA55D3', '#FF8C00', '#00FFFF'
-      ];
-      return colors[Math.floor(Math.random() * colors.length)];
+  function copyFav(i) { navigator.clipboard.writeText(favorites[i].text).then(() => showToast('Copied! 📋', 'success')); }
+
+  function deleteFav(i) {
+    favorites.splice(i, 1);
+    lsSet('gb_favorites', favorites);
+    renderFavorites();
+    updateHomeStats();
+    showToast('Removed from favorites', 'info');
+  }
+
+  // ══════════════════════════════════════
+  // PROGRESS
+  // ══════════════════════════════════════
+  function renderProgress() {
+    document.getElementById('progTotal').textContent = complimentsN;
+    document.getElementById('progCompliments').textContent = complimentsN;
+    document.getElementById('progFavorites').textContent = favorites.length;
+    document.getElementById('progJournal').textContent = journalEntries.length;
+
+    const row = document.getElementById('streakRow');
+    row.innerHTML = '';
+    const days = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
+    const today = new Date();
+    for (let i = 6; i >= 0; i--) {
+      const d = new Date(); d.setDate(today.getDate() - i);
+      const isToday = d.toDateString() === today.toDateString();
+      const dot = document.createElement('div');
+      dot.className = 'streak-dot' + (isToday ? ' active' : '');
+      dot.innerHTML = `<div class="streak-dot-day">${isToday ? '🌸' : d.getDate()}</div><div class="streak-dot-label">${days[d.getDay()]}</div>`;
+      row.appendChild(dot);
     }
+  }
 
-    function saveToFavorites() {
-      playSound(clickSound);
-      
-      const compliment = document.getElementById("complimentDisplay").textContent;
-      
-      if (!currentMood || compliment.includes("Click the button")) {
-        showToast("Please generate a compliment first!", "error");
-        return;
-      }
-      
-      // Check if already saved
-      const alreadySaved = favoriteCompliments.some(fav => 
-        fav.text === compliment && fav.mood === currentMood
-      );
-      
-      if (alreadySaved) {
-        showToast("This compliment is already in your favorites!", "info");
-        return;
-      }
-      
-      const selectedMood = moods.find(m => m.id === currentMood);
-      
-      favoriteCompliments.push({
-        text: compliment,
-        mood: currentMood,
-        moodName: selectedMood.name,
-        date: new Date().toLocaleDateString(),
-        timestamp: Date.now()
-      });
-      
-      localStorage.setItem('favoriteCompliments', JSON.stringify(favoriteCompliments));
-      updateFavoritesCount();
-      updateProgressStats();
-      
-      playSound(saveSound);
-      showToast("Compliment saved to favorites!", "success");
+  function updateStreak() {
+    const today = new Date().toDateString();
+    if (streak.lastDate !== today) {
+      streak.count++;
+      streak.lastDate = today;
+      lsSet('gb_streak', streak);
     }
+  }
 
-    function toggleJournal() {
-      const journalSection = document.getElementById("journalSection");
-      const isHidden = journalSection.style.display !== 'block';
-      
-      playSound(clickSound);
-      
-      if (isHidden) {
-        journalSection.style.display = 'block';
-        document.querySelector(".compliment-section").style.display = 'none';
-        document.getElementById("favoritesSection").style.display = 'none';
-      } else {
-        journalSection.style.display = 'none';
-        document.querySelector(".compliment-section").style.display = 'flex';
-      }
+  function updateHomeStats() {
+    document.getElementById('homeStatCompliments').textContent = complimentsN;
+    document.getElementById('homeStatFavorites').textContent = favorites.length;
+    document.getElementById('homeStatJournal').textContent = journalEntries.length;
+  }
+
+  // ══════════════════════════════════════
+  // SHARE
+  // ══════════════════════════════════════
+  function generateShareCompliment() {
+    const all = Object.values(COMPLIMENTS).flat();
+    const text = all[Math.floor(Math.random() * all.length)];
+    currentShareText = text;
+    const el = document.getElementById('shareText');
+    el.textContent = text;
+    el.className = 'share-text fade-in';
+  }
+
+  function shareTwitter() {
+    if (!currentShareText) { showToast('Generate a compliment first', 'error'); return; }
+    window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent('✨ ' + currentShareText + ' — via Glow Bloom')}`, '_blank');
+  }
+
+  function shareWhatsApp() {
+    if (!currentShareText) { showToast('Generate a compliment first', 'error'); return; }
+    window.open(`https://wa.me/?text=${encodeURIComponent('✨ ' + currentShareText + ' — via Glow Bloom')}`, '_blank');
+  }
+
+  function copyShareText() {
+    if (!currentShareText) { showToast('Generate a compliment first', 'error'); return; }
+    navigator.clipboard.writeText(currentShareText).then(() => showToast('Copied! 📋', 'success'));
+  }
+
+  // ══════════════════════════════════════
+  // THEME
+  // ══════════════════════════════════════
+  function toggleTheme() {
+    document.body.classList.toggle('dark');
+    const dark = document.body.classList.contains('dark');
+    document.getElementById('themeBtn').textContent = dark ? '☀️' : '🌙';
+    lsSet('gb_dark', dark);
+  }
+
+  // ══════════════════════════════════════
+  // TOAST
+  // ══════════════════════════════════════
+  let toastTimer;
+  function showToast(msg, type = 'info') {
+    clearTimeout(toastTimer);
+    const wrap = document.getElementById('toastWrap');
+    const inner = document.getElementById('toastInner');
+    inner.textContent = msg;
+    inner.className = 'toast-inner ' + type;
+    wrap.classList.add('show');
+    toastTimer = setTimeout(() => wrap.classList.remove('show'), 3000);
+  }
+
+  // ══════════════════════════════════════
+  // CONFETTI
+  // ══════════════════════════════════════
+  const COLORS = ['#E8627A','#F4956A','#F2B949','#9B7FD4','#5EC4A8'];
+  function createConfetti() {
+    for (let i = 0; i < 60; i++) {
+      setTimeout(() => {
+        const el = document.createElement('div');
+        el.className = 'confetti-piece';
+        el.style.cssText = `left:${Math.random()*100}vw; top:-10px; background:${COLORS[Math.floor(Math.random()*COLORS.length)]}; width:${Math.random()*10+5}px; height:${Math.random()*10+5}px; border-radius:${Math.random() > 0.5 ? '50%' : '2px'}; animation-duration:${Math.random()*2+2.5}s;`;
+        document.body.appendChild(el);
+        setTimeout(() => el.remove(), 5000);
+      }, i * 30);
     }
+  }
 
-    function toggleFavorites() {
-      const favoritesSection = document.getElementById("favoritesSection");
-      const isHidden = favoritesSection.style.display !== 'block';
-      
-      playSound(clickSound);
-      
-      if (isHidden) {
-        renderFavoritesList();
-        favoritesSection.style.display = 'block';
-        document.querySelector(".compliment-section").style.display = 'none';
-        document.getElementById("journalSection").style.display = 'none';
-      } else {
-        favoritesSection.style.display = 'none';
-        document.querySelector(".compliment-section").style.display = 'flex';
-      }
-    }
+  // ══════════════════════════════════════
+  // INIT
+  // ══════════════════════════════════════
+  function init() {
+    buildMoodGrid();
+    updateHomeStats();
+    if (ls('gb_dark')) { document.body.classList.add('dark'); document.getElementById('themeBtn').textContent = '☀️'; }
+    // Set journal date
+    const today = new Date();
+    const el = document.getElementById('journalDateDisplay');
+    if (el) el.textContent = today.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+  }
 
-    function renderFavoritesList() {
-      const favoritesList = document.getElementById("favoritesList");
-      favoritesList.innerHTML = '';
-      
-      if (favoriteCompliments.length === 0) {
-        favoritesList.innerHTML = '<li style="text-align: center; padding: 20px;">No favorites yet. Save some compliments to see them here!</li>';
-        return;
-      }
-      
-      // Sort by most recent first
-      const sortedFavorites = [...favoriteCompliments].sort((a, b) => b.timestamp - a.timestamp);
-      
-      sortedFavorites.forEach((fav, index) => {
-        const li = document.createElement('li');
-        li.className = 'favorite-item';
-        
-        const moodEmoji = moods.find(m => m.id === fav.mood)?.emoji || '✨';
-        
-        li.innerHTML = `
-          <div class="favorite-text">
-            <strong>${moodEmoji} ${fav.moodName}</strong><br>
-            ${fav.text}
-            <div style="font-size: 0.8em; margin-top: 8px; opacity: 0.7;">Saved on ${fav.date}</div>
-          </div>
-          <div class="favorite-actions">
-            <button class="tool-button" onclick="speakFavorite(${index})" title="Speak">
-              🔈
-            </button>
-            <button class="tool-button" onclick="copyFavorite(${index})" title="Copy">
-              ⎘
-            </button>
-            <button class="tool-button" onclick="removeFavorite(${index})" title="Remove">
-              ✕
-            </button>
-          </div>
-        `;
-        
-        favoritesList.appendChild(li);
-      });
-    }
-
-    function speakFavorite(index) {
-      if (currentSpeech) {
-        window.speechSynthesis.cancel();
-      }
-      
-      const favorite = favoriteCompliments[index];
-      const utterance = new SpeechSynthesisUtterance(favorite.text);
-      utterance.rate = 0.9;
-      utterance.pitch = 1.1;
-      
-      const voices = window.speechSynthesis.getVoices();
-      const femaleVoice = voices.find(voice => 
-        voice.name.includes('Female') || 
-        voice.name.includes('woman') || 
-        voice.lang.includes('en-US')
-      );
-      
-      if (femaleVoice) {
-        utterance.voice = femaleVoice;
-      }
-      
-      currentSpeech = utterance;
-      window.speechSynthesis.speak(utterance);
-      
-      utterance.onend = () => {
-        currentSpeech = null;
-      };
-    }
-
-    function copyFavorite(index) {
-      const favorite = favoriteCompliments[index];
-      navigator.clipboard.writeText(favorite.text).then(() => {
-        showToast("Copied to clipboard!", "success");
-      }).catch(err => {
-        console.error("Copy failed:", err);
-        showToast("Failed to copy", "error");
-      });
-    }
-
-    function removeFavorite(index) {
-      playSound(clickSound);
-      favoriteCompliments.splice(index, 1);
-      localStorage.setItem('favoriteCompliments', JSON.stringify(favoriteCompliments));
-      renderFavoritesList();
-      updateFavoritesCount();
-      updateProgressStats();
-      showToast("Removed from favorites", "info");
-    }
-
-    function updateFavoritesCount() {
-      document.getElementById("favoritesCount").textContent = `${favoriteCompliments.length} saved`;
-    }
-
-    function saveJournalEntry() {
-      const entryText = document.getElementById("journalEntry").value.trim();
-      
-      if (entryText) {
-        const today = new Date();
-        
-        journalEntries.push({
-          text: entryText,
-          date: today.toLocaleDateString(),
-          timestamp: today.getTime()
-        });
-        
-        localStorage.setItem('journalEntries', JSON.stringify(journalEntries));
-        updateProgressStats();
-        
-        document.getElementById("journalEntry").value = '';
-        showToast("Reflection saved!", "success");
-      } else {
-        showToast("Please write something first", "error");
-      }
-    }
-
-    function toggleTheme() {
-      playSound(clickSound);
-      document.body.classList.toggle("night-mode");
-      const isNightMode = document.body.classList.contains("night-mode");
-      document.getElementById("theme-icon").textContent = isNightMode ? "☀️" : "🌙";
-      localStorage.setItem('nightMode', isNightMode);
-    }
-
-    function showToast(message, type = 'info') {
-      const toast = document.getElementById("toast");
-      toast.textContent = message;
-      toast.className = `toast ${type}`;
-      
-      let icon = '';
-      switch(type) {
-        case 'success': icon = '✓'; playSound(successSound); break;
-        case 'error': icon = '✗'; playSound(clickSound); break;
-        default: icon = 'ℹ';
-      }
-      toast.innerHTML = `<span style="font-weight: bold;">${icon}</span> ${message}`;
-      
-      toast.classList.add('show');
-      setTimeout(() => toast.classList.remove('show'), 3000);
-    }
-
-    function playSound(audioElement) {
-      audioElement.currentTime = 0;
-      audioElement.play().catch(e => console.log("Audio play prevented:", e));
-    }
-
-    // Initialize the app
-    document.addEventListener('DOMContentLoaded', init);
-
-    // Event listeners
-    speakButton.addEventListener('click', speakCompliment);
-    copyButton.addEventListener('click', copyCompliment);
-
-    // Load voices when available
-    window.speechSynthesis.onvoiceschanged = function() {
-      const voices = window.speechSynthesis.getVoices();
-      console.log("Voices loaded:", voices);
-    };
+  document.addEventListener('DOMContentLoaded', init);
   </script>
 </body>
 </html>
